@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Avatar, Grid, Stack, TextField, Typography } from "@mui/material";
 import EditInfoButton from "./Buttons/EditInfoButton";
 import UpdateActionsButton from "./Buttons/UpdateActionsButton";
 import { fakeProfileData } from "../utils/dataUtils";
 import { red } from "@mui/material/colors";
 
-const SocialHelpProfile = () => {
+const SocialHelpProfile = (props) => {
   const [editing, setEditing] = useState(false);
   const [user, setUser] = useState(fakeProfileData);
 

@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "react-router-dom": "^6.9.0"
+    "@mui/styles": "^5.11.12",
+    "autosuggest-highlight": "^3.3.4",
+    "use-places-autocomplete": "^4.0.0",
+    "yup": "^1.0.2"
   }
 }

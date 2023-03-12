@@ -21,14 +21,14 @@ export default function SocialHelpProgress(props) {
       <Box sx={{ width: "80%" }}>
         <LinearProgress />
       </Box>
-      <Typography
+      {/* <Typography
         variant="h3"
         component="div"
         sx={{ mt: 3, fontStyle: "italic" }}
         color="primary"
       >
         Caricamento in corso...
-      </Typography>
+      </Typography> */}
     </Box>
   );
 }
