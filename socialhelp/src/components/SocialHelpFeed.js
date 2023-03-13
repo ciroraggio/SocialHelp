@@ -5,6 +5,7 @@ import { fakeData } from "../utils/dataUtils";
 import SocialHelpPost from "./SocialHelpPost";
 import AddPostButton from "./Buttons/AddPostButton";
 import SocialHelpProgress from "./SocialHelpProgress";
+import SocialHelpResolveDialog from "./SocialHelpResolveDialog";
 
 const SocialHelpFeed = () => {
   const [posts, setPosts] = useState([]);
@@ -43,6 +44,7 @@ const SocialHelpFeed = () => {
       </InfiniteScroll>
 
       <AddPostButton />
+      <SocialHelpResolveDialog />
     </>
   );
 };

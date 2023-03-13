@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Tabs, Tab, Box } from "@mui/material";
 import SocialHelpFeed from "./SocialHelpFeed";
 import SocialHelpProfile from "./SocialHelpProfile";
@@ -12,7 +12,6 @@ import SocialHelpToolbar from "./SocialHelpToolbar";
 
 const SocialHelpTabs = (props) => {
   const [tabValue, setTabValue] = useState(props.tabValue || tabValues.feed);
-  const currentUsername = "account_test"; // TODO settare in fase di login su redux e recuperare
   const navigate = useNavigate();
 
   const handleTabChange = (event, newValue) => {

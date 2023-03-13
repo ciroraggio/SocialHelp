@@ -1,24 +1,25 @@
-import { useState } from 'react';
-import { TextField, Grid, Avatar, Typography } from '@mui/material';
+import { useState } from "react";
+import { TextField, Grid, Avatar, Typography } from "@mui/material";
+import FollowButton from "./Buttons/SocialHelpFollow";
 
 const profiles = [
   {
     id: 1,
-    name: 'John Doe',
-    username: 'johndoe',
-    avatarUrl: 'https://picsum.photos/200',
+    name: "John Doe",
+    username: "johndoe",
+    avatarUrl: "https://picsum.photos/200",
   },
   {
     id: 2,
-    name: 'Jane Doe',
-    username: 'janedoe',
-    avatarUrl: 'https://picsum.photos/200',
+    name: "Jane Doe",
+    username: "janedoe",
+    avatarUrl: "https://picsum.photos/200",
   },
   // ... altri profili
 ];
 
 const SocialHelpExplore = () => {
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
 
   const handleSearchTextChange = (event) => {
     setSearchText(event.target.value);
@@ -45,9 +46,15 @@ const SocialHelpExplore = () => {
             <Grid item>
               <Avatar src={profile.avatarUrl} />
             </Grid>
-            <Grid item>
+            <Grid item xs={11}>
               <Typography variant="subtitle1">{profile.name}</Typography>
-              <Typography variant="body2" color="textSecondary">{`@${profile.username}`}</Typography>
+              <Typography
+                variant="body2"
+                color="textSecondary"
+              >{`@${profile.username}`}</Typography>
+            </Grid>
+            <Grid item>
+              <FollowButton />
             </Grid>
           </Grid>
         </Grid>
