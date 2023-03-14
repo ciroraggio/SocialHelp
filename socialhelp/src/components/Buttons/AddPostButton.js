@@ -1,12 +1,12 @@
 import React from "react";
 import { Fab, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { openResolveDialog } from "../../store/appSlice";
 import { useDispatch } from "react-redux";
+import { openNewPostDialog } from "../../store/postSlice";
 
 const AddPostButton = () => {
   const dispatch = useDispatch();
-  const handleAddPost = () => dispatch(openResolveDialog());
+  const handleAddPost = () => dispatch(openNewPostDialog());
 
   return (
     <Tooltip title="Crea post" arrow>

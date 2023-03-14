@@ -1,25 +1,61 @@
-import { useState } from "react";
-import { TextField, Grid, Avatar, Typography } from "@mui/material";
-import FollowButton from "./Buttons/SocialHelpFollow";
-
-const profiles = [
-  {
-    id: 1,
-    name: "John Doe",
-    username: "johndoe",
-    avatarUrl: "https://picsum.photos/200",
-  },
-  {
-    id: 2,
-    name: "Jane Doe",
-    username: "janedoe",
-    avatarUrl: "https://picsum.photos/200",
-  },
-  // ... altri profili
-];
+import { useEffect, useMemo, useState } from "react";
+import { TextField, Grid, Box, IconButton } from "@mui/material";
+import { profiles } from "../utils/dataUtils";
+import MaterialReactTable from "material-react-table";
+import SocialHelpFollowButton from "./Buttons/SocialHelpFollowButton";
+import EditIcon from "@mui/icons-material/Edit";
 
 const SocialHelpExplore = () => {
   const [searchText, setSearchText] = useState("");
+  const [data, setData] = useState([]);
+
+  const columns = [
+    {
+      accessorKey: "avatarUrl",
+      headerName: "avatar",
+      Cell: ({ renderedCellValue, row }) => (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "1rem",
+          }}
+        >
+          <img
+            alt="avatar"
+            height={30}
+            src={row.original.avatarUrl}
+            loading="lazy"
+            style={{ borderRadius: "50%", scale: "200%" }}
+          />
+        </Box>
+      ),
+    },
+    {
+      accessorKey: "name",
+      headerName: "Name",
+    },
+    {
+      accessorKey: "username",
+      headerName: "Username",
+      Cell: ({ renderedCellValue, row }) => (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "1rem",
+          }}
+        >
+          <span>@{renderedCellValue}</span>
+        </Box>
+      ),
+    },
+    {
+      accessorKey: "location",
+      headerName: "Location",
+    },
+  ];
 
   const handleSearchTextChange = (event) => {
     setSearchText(event.target.value);
@@ -28,6 +64,15 @@ const SocialHelpExplore = () => {
   const filteredProfiles = profiles.filter((profile) =>
     profile.name.toLowerCase().includes(searchText.toLowerCase())
   );
+
+  useEffect(() => {
+    if (filteredProfiles && filteredProfiles.length > 0)
+      setData(filteredProfiles);
+  }, [filteredProfiles]);
+
+  useEffect(() => {
+    setData(profiles);
+  }, []);
 
   return (
     <Grid container spacing={2} justifyContent="center">
@@ -40,25 +85,37 @@ const SocialHelpExplore = () => {
           onChange={handleSearchTextChange}
         />
       </Grid>
-      {filteredProfiles.map((profile) => (
-        <Grid key={profile.id} item xs={12}>
-          <Grid container alignItems="center" spacing={2}>
-            <Grid item>
-              <Avatar src={profile.avatarUrl} />
-            </Grid>
-            <Grid item xs={11}>
-              <Typography variant="subtitle1">{profile.name}</Typography>
-              <Typography
-                variant="body2"
-                color="textSecondary"
-              >{`@${profile.username}`}</Typography>
-            </Grid>
-            <Grid item>
-              <FollowButton />
-            </Grid>
-          </Grid>
-        </Grid>
-      ))}
+
+      <MaterialReactTable
+        muiTablePaperProps={{
+          elevation: 0,
+          sx: {
+            borderRadius: "0",
+            border: "1px #e0e0e0",
+          },
+        }}
+        columns={columns}
+        data={data}
+        enableColumnFilterModes={false}
+        enableColumnOrdering={false}
+        enableFilters={false}
+        enableDensityToggle={false}
+        enableFullScreenToggle={false}
+        enableGrouping={false}
+        enableHiding={false}
+        showColumnFilters={false}
+        enablePinning={false}
+        enableRowSelection={false}
+        enableTableHead={false}
+        enablePagination={false}
+        enableRowActions
+        positionActionsColumn="last"
+        renderRowActions={({ row }) => (
+          <Box>
+            <SocialHelpFollowButton />
+          </Box>
+        )}
+      />
     </Grid>
   );
 };

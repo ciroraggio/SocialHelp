@@ -2,6 +2,7 @@ export const fakeData = [
   {
     post: {
       id: "id1",
+      postUrl: "https://socialhelp.com/post/id1",
       description: "Questo è il primo post di SocialHelp!",
       location: "Roma, Italy",
       images: [
@@ -19,6 +20,7 @@ export const fakeData = [
   {
     post: {
       id: "id2",
+      postUrl: "https://socialhelp.com/post/id2",
       description: "Questo è il secondo post di SocialHelp!",
       location: "Milano, Italy",
       images: [],
@@ -32,6 +34,7 @@ export const fakeData = [
   {
     post: {
       id: "id3",
+      postUrl: "https://socialhelp.com/post/id3",
       description: "Questo è il terzo post di SocialHelp!",
       location: "Milano, Italy",
       images: [],
@@ -45,10 +48,132 @@ export const fakeData = [
 ];
 
 export const fakeProfileData = {
-    name: "Account",
-    surname: "Test",
-    email: "test@example.com",
-    phone: "(555) 555-1212",
-    location: "Rome, Italy",
-    profileImageUrl:'/assets/images/profile-fake.jpg'
+  name: "Account",
+  surname: "Test",
+  email: "test@example.com",
+  phone: "(555) 555-1212",
+  location: "Rome, Italy",
+  profileImageUrl: "/assets/images/profile-fake.jpg",
+};
+
+export const profiles = [
+  {
+    id: 1,
+    name: "John Doe",
+    username: "johndoe",
+    location: "Rome,Italy",
+    avatarUrl: "https://picsum.photos/200",
+  },
+  {
+    id: 2,
+    name: "Jane Doe",
+    username: "janedoe",
+    location: "Rome,Italy",
+    avatarUrl: "https://picsum.photos/200",
+  },
+  {
+    id: 2,
+    name: "Jane Doe",
+    username: "janedoe",
+    location: "Rome,Italy",
+    avatarUrl: "https://picsum.photos/200",
+  },
+  {
+    id: 2,
+    name: "Jane Doe",
+    username: "janedoe",
+    location: "Rome,Italy",
+    avatarUrl: "https://picsum.photos/200",
+  },
+  {
+    id: 2,
+    name: "Jane Doe",
+    username: "janedoe",
+    location: "Rome,Italy",
+    avatarUrl: "https://picsum.photos/200",
+  },
+  {
+    id: 2,
+    name: "Jane Doe",
+    username: "janedoe",
+    location: "Rome,Italy",
+    avatarUrl: "https://picsum.photos/200",
+  },
+  {
+    id: 2,
+    name: "Jane Doe",
+    username: "janedoe",
+    location: "Rome,Italy",
+    avatarUrl: "https://picsum.photos/200",
+  },
+  {
+    id: 2,
+    name: "Jane Doe",
+    username: "janedoe",
+    location: "Rome,Italy",
+    avatarUrl: "https://picsum.photos/200",
+  },
+  {
+    id: 2,
+    name: "Jane Doe",
+    username: "janedoe",
+    location: "Rome,Italy",
+    avatarUrl: "https://picsum.photos/200",
+  },
+  {
+    id: 2,
+    name: "Jane Doe",
+    username: "janedoe",
+    location: "Rome,Italy",
+    avatarUrl: "https://picsum.photos/200",
+  },
+  {
+    id: 2,
+    name: "Jane Doe",
+    username: "janedoe",
+    location: "Rome,Italy",
+    avatarUrl: "https://picsum.photos/200",
+  },
+  {
+    id: 2,
+    name: "Jane Doe",
+    username: "janedoe",
+    location: "Rome,Italy",
+    avatarUrl: "https://picsum.photos/200",
+  },
+  {
+    id: 2,
+    name: "Jane Doe",
+    username: "janedoe",
+    location: "Rome,Italy",
+    avatarUrl: "https://picsum.photos/200",
+  },
+  {
+    id: 2,
+    name: "Jane Doe",
+    username: "janedoe",
+    location: "Rome,Italy",
+    avatarUrl: "https://picsum.photos/200",
+  },
+  {
+    id: 2,
+    name: "Jane Doe",
+    username: "janedoe",
+    location: "Rome,Italy",
+    avatarUrl: "https://picsum.photos/200",
+  },
+  {
+    id: 2,
+    name: "Jane Doe",
+    username: "janedoe",
+    location: "Rome,Italy",
+    avatarUrl: "https://picsum.photos/200",
+  },
+  {
+    id: 2,
+    name: "Jane Doe",
+    username: "janedoe",
+    location: "Rome,Italy",
+    avatarUrl: "https://picsum.photos/200",
   }
+];

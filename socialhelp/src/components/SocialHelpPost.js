@@ -15,7 +15,7 @@ import ResolvePostButton from "./Buttons/ResolvePostButton";
 const SocialHelpPost = (props) => {
   const { user, post } = props;
   const [images, setImages] = useState(null);
-
+  
   useEffect(() => {
     setImages(post.images);
   }, []);
@@ -62,7 +62,7 @@ const SocialHelpPost = (props) => {
         </>
       )}
       <CardActions disableSpacing>
-        <SharePostButton />
+        <SharePostButton postInformation={post} />
         <ResolvePostButton />
       </CardActions>
     </Card>

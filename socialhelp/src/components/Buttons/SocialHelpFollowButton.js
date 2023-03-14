@@ -2,7 +2,7 @@ import React from "react";
 import { IconButton, Tooltip } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
-const FollowButton = () => {
+const SocialHelpFollowButton = ({row}) => {
   return (
     <Tooltip title="Segui" arrow>
       <IconButton>
@@ -12,4 +12,4 @@ const FollowButton = () => {
   );
 };
 
-export default FollowButton;
+export default SocialHelpFollowButton;
