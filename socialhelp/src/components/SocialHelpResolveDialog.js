@@ -11,6 +11,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import { useDispatch, useSelector } from "react-redux";
 import { closeResolveDialog, openResolveDialog } from "../store/appSlice";
+import { DialogContentText, TextField } from "@mui/material";
+import UploadImageButton from "./Buttons/UploadImageButton";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -21,7 +23,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-function BootstrapDialogTitle(props) {
+function CustomizedDialog(props) {
   const { children, onClose, ...other } = props;
 
   return (
@@ -45,7 +47,7 @@ function BootstrapDialogTitle(props) {
   );
 }
 
-BootstrapDialogTitle.propTypes = {
+CustomizedDialog.propTypes = {
   children: PropTypes.node,
   onClose: PropTypes.func.isRequired,
 };
@@ -55,42 +57,47 @@ const SocialHelpResolveDialog = () => {
   const dispatch = useDispatch();
 
   const handleClose = () => {
-    dispatch(closeResolveDialog())
+    dispatch(closeResolveDialog());
   };
 
   return (
     <div>
       <BootstrapDialog
         onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
         open={resolveDialog.open}
+        sx={{ "& .MuiDialog-paper": { width: "80%", maxHeight: 900, maxWidth: 900 } }}
+        maxWidth="xs"
       >
-        <BootstrapDialogTitle
-          id="customized-dialog-title"
-          onClose={handleClose}
-        >
-          Modal title
-        </BootstrapDialogTitle>
+        <CustomizedDialog onClose={handleClose}>
+          Aggiungi nuovo post
+        </CustomizedDialog>
         <DialogContent dividers>
-          <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
-            ac consectetur ac, vestibulum at eros.
-          </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-            auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-            cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
-            dui. Donec ullamcorper nulla non metus auctor fringilla.
-          </Typography>
+          <TextField
+            id="outlined-multiline-static"
+            label="Descrizione"
+            placeholder="Descrivi il tuo problema..."
+            multiline
+            rows={7}
+            fullWidth
+            sx={{paddingBottom: '16px'}}
+          />
+          <TextField
+            id="outlined-multiline-static"
+            label="Luogo"
+            placeholder="Aggiungi il luogo..."
+            fullWidth
+          />
+          <div style={{ paddingTop: "10px" }}>
+            <UploadImageButton />
+          </div>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Save changes
+          <Button
+            autoFocus
+            onClick={handleClose}
+            sx={{ textTransform: "none" }}
+          >
+            Pubblica
           </Button>
         </DialogActions>
       </BootstrapDialog>

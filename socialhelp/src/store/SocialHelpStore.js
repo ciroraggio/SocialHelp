@@ -10,7 +10,6 @@ const rootReducer = {
 const store = configureStore({
   reducer: rootReducer,
   devTools: true,
-  // enhancers: [composeWithDevTools()],
 });
 
 export default store;
