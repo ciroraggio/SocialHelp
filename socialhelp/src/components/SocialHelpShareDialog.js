@@ -15,7 +15,12 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import { useDispatch, useSelector } from "react-redux";
 import { closeSharePostDialog } from "../store/postSlice";
-import { handleFacebookShare, handleTelegramShare, handleWhatsAppShare } from "../utils/shareUtils";
+import {
+  handleFacebookShare,
+  handleTelegramShare,
+  handleWhatsAppShare,
+} from "../utils/shareUtils";
+import { BootstrapDialog, CustomizedDialog } from "./SocialHelpAddPostDialog";
 
 const SocialHelpShareDialog = () => {
   const [copied, setCopied] = useState(false);
@@ -26,29 +31,31 @@ const SocialHelpShareDialog = () => {
     setCopied(true);
   }
 
-  const onClose = () => {
+  const handleClose = () => {
     setCopied(false);
     dispatch(closeSharePostDialog());
   };
 
   return (
-    <Dialog
+    <BootstrapDialog
       open={sharePostDialog.open}
-      onClose={onClose}
+      onClose={handleClose}
       sx={{
         "& .MuiDialog-paper": { width: "80%", maxHeight: 900, maxWidth: 900 },
       }}
     >
-      <DialogTitle>Condividi il post</DialogTitle>
-      <DialogContent>
+      <CustomizedDialog onClose={handleClose}>
+        Condividi il post
+      </CustomizedDialog>
+      <DialogContent dividers>
         <Typography variant="subtitle1">Condividi su:</Typography>
-        <IconButton onClick={ () => handleTelegramShare(postUrl)}>
+        <IconButton onClick={() => handleTelegramShare(postUrl)}>
           <TelegramIcon />
         </IconButton>
-        <IconButton onClick={ () => handleWhatsAppShare(postUrl)}>
+        <IconButton onClick={() => handleWhatsAppShare(postUrl)}>
           <WhatsAppIcon />
         </IconButton>
-        <IconButton onClick={ () => handleFacebookShare(postUrl)}>
+        <IconButton onClick={() => handleFacebookShare(postUrl)}>
           <FacebookIcon />
         </IconButton>
         <Typography variant="subtitle1">Copia il link:</Typography>
@@ -68,11 +75,11 @@ const SocialHelpShareDialog = () => {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} sx={{ textTransform: "none" }}>
+        <Button onClick={handleClose} sx={{ textTransform: "none" }}>
           Chiudi
         </Button>
       </DialogActions>
-    </Dialog>
+    </BootstrapDialog>
   );
 };
 

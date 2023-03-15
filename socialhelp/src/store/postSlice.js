@@ -11,6 +11,10 @@ export const postSlice = createSlice({
       open: false,
       data: null,
     },
+    resolvePostDialog: {
+      open: false,
+      data: null,
+    },
     postUrl: ''
   },
 
@@ -30,6 +34,12 @@ export const postSlice = createSlice({
     closeSharePostDialog: (state, action) => {
       state.sharePostDialog.open = false;
     },
+    openResolvePostDialog: (state, action) => {
+      state.resolvePostDialog.open = true;
+    },
+    closeResolvePostDialog: (state, action) => {
+      state.resolvePostDialog.open = false;
+    },
   },
 });
 
@@ -39,6 +49,8 @@ export const {
   closeNewPostDialog,
   openSharePostDialog,
   closeSharePostDialog,
+  openResolvePostDialog,
+  closeResolvePostDialog
 } = postSlice.actions;
 
 export const postReducer = postSlice.reducer;

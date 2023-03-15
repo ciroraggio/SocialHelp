@@ -7,6 +7,7 @@ import AddPostButton from "./Buttons/AddPostButton";
 import SocialHelpProgress from "./SocialHelpProgress";
 import SocialHelpAddPostDialog from "./SocialHelpAddPostDialog";
 import SocialHelpShareDialog from "./SocialHelpShareDialog";
+import SocialHelpResolveDialog from "./SocialHelpResolveDialog";
 
 const SocialHelpFeed = () => {
   const [posts, setPosts] = useState([]);
@@ -47,6 +48,7 @@ const SocialHelpFeed = () => {
       <AddPostButton />
       <SocialHelpAddPostDialog />
       <SocialHelpShareDialog />
+      <SocialHelpResolveDialog />
     </>
   );
 };

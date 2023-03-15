@@ -15,7 +15,7 @@ import UploadImageButton from "./Buttons/UploadImageButton";
 import * as Yup from "yup";
 import { closeNewPostDialog } from "../store/postSlice";
 
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+export const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
   },
@@ -30,7 +30,7 @@ const styles = {
   },
 };
 
-function CustomizedDialog(props) {
+export function CustomizedDialog(props) {
   const { children, onClose, ...other } = props;
 
   return (
@@ -122,7 +122,7 @@ const SocialHelpAddPostDialog = () => {
             <TextField
               id="description"
               name="description"
-              label="Description"
+              label="Descrizione"
               multiline
               rows={7}
               type="text"

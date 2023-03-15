@@ -7,10 +7,11 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { CardMedia } from "@mui/material";
 import SharePostButton from "./Buttons/SharePostButton";
 import ResolvePostButton from "./Buttons/ResolvePostButton";
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import SpreadPostButton from "./Buttons/SpreadPostButton";
 
 const SocialHelpPost = (props) => {
   const { user, post } = props;
@@ -28,16 +29,12 @@ const SocialHelpPost = (props) => {
             {user.profileImage || user.initials}
           </Avatar>
         }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
         title={
           <Typography variant="subtitle1" color="text" align="left">
             {`${user.name} ${user.surname}`}
           </Typography>
         }
+        action={<SharePostButton postInformation={post} />}
         subheader={
           <Typography variant="subtitle2" color="text.secondary" align="left">
             {post.location}
@@ -62,7 +59,7 @@ const SocialHelpPost = (props) => {
         </>
       )}
       <CardActions disableSpacing>
-        <SharePostButton postInformation={post} />
+        <SpreadPostButton />
         <ResolvePostButton />
       </CardActions>
     </Card>

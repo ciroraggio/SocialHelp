@@ -1,22 +1,21 @@
 import React from "react";
 import { IconButton, Tooltip } from "@mui/material";
-import ReplyIcon from "@mui/icons-material/Reply";
 import { useDispatch } from "react-redux";
-import { openResolvePostDialog } from "../../store/postSlice";
+import PostAddIcon from '@mui/icons-material/PostAdd';
 
-const ResolvePostButton = () => {
+const SpreadPostButton = () => {
   const dispatch = useDispatch();
   const onClick = () => {
-    dispatch(openResolvePostDialog());
+    window.alert('Diffondi il post ok')
   };
 
   return (
-    <Tooltip title="Risolvi" arrow>
+    <Tooltip title="Diffondi su SocialHelp" arrow>
       <IconButton onClick={onClick}>
-        <ReplyIcon />
+        <PostAddIcon />
       </IconButton>
     </Tooltip>
   );
 };
 
-export default ResolvePostButton;
+export default SpreadPostButton;
