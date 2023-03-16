@@ -12,10 +12,15 @@ import {
 import { Box } from "@mui/system";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { isRequiredField } from "../utils/settings";
+import { serverPostRequest } from "../utils/httpUtils";
+import { useDispatch } from "react-redux";
+import { setUserData } from "../store/userSlice";
+import SociaHelpAlert from "./SociaHelpAlert";
 
 const validationSchema = Yup.object().shape({
-  username: Yup.string().required("Campo obbligatorio"),
-  password: Yup.string().required("Campo obbligatorio"),
+  username: Yup.string().required(isRequiredField),
+  password: Yup.string().required(isRequiredField),
 });
 
 const styles = {
@@ -40,18 +45,19 @@ const styles = {
     marginTop: "24px",
   },
   showPasswordButton: {
-    scale: '70%'
-  }
+    scale: "70%",
+  },
 };
 
 const SocialHelpLogin = () => {
   const [values, setValues] = useState({
-    email: "",
+    username: "",
     password: "",
   });
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleChange = (event) => {
     setValues({
       ...values,
@@ -64,8 +70,17 @@ const SocialHelpLogin = () => {
     validationSchema
       .validate(values, { abortEarly: false })
       .then(() => {
-        // Effettua la richiesta di login qui
-        navigate('/feed')
+        serverPostRequest(
+          `http://localhost:3001/login`,
+          { username: values.username, password: values.password}
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            dispatch(setUserData(data));
+            navigate("/feed");
+          })
+          .catch((error) => <SociaHelpAlert severity="error" message="Errore login"/>);
+        
       })
       .catch((validationErrors) => {
         const errors = {};
@@ -123,7 +138,10 @@ const SocialHelpLogin = () => {
                 fullWidth
                 InputProps={{
                   endAdornment: (
-                    <InputAdornment position="end" sx={styles.showPasswordButton}>
+                    <InputAdornment
+                      position="end"
+                      sx={styles.showPasswordButton}
+                    >
                       <IconButton
                         aria-label="toggle password visibility"
                         onClick={handleClickShowPassword}

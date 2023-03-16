@@ -30,10 +30,18 @@ export const userSlice = createSlice({
     setPhone: (state, action) => {
       state.phone = action.payload;
     },
+    setUserData: (state, action) => {
+      state.name = action.payload.name;
+      state.surname = action.payload.surname;
+      state.username = action.payload.username;
+      state.location = action.payload.location;
+      state.email = action.payload.email;
+      state.phone = action.payload.phone;
+    }
   },
 });
 
-export const { setName, setSurname, setLocation, setUsername, setEmail, setPhone } =
+export const { setName, setSurname, setLocation, setUsername, setEmail, setPhone, setUserData} =
   userSlice.actions;
 
 export const userReducer = userSlice.reducer;

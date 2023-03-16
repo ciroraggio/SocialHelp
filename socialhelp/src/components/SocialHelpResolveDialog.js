@@ -10,9 +10,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeResolvePostDialog } from "../store/postSlice";
 import * as Yup from "yup";
 import { BootstrapDialog, CustomizedDialog } from "./SocialHelpAddPostDialog";
+import { isRequiredField } from "../utils/settings";
 
 const validationSchema = Yup.object().shape({
-  description: Yup.string().required("Campo obbligatorio"),
+  description: Yup.string().required(isRequiredField),
 });
 
 const valuesInitialState = {

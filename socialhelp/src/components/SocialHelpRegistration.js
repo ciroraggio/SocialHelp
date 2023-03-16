@@ -11,19 +11,20 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { isRequiredField } from "../utils/settings";
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Campo obbligatorio"),
-  surname: Yup.string().required("Campo obbligatorio"),
+  name: Yup.string().required(isRequiredField),
+  surname: Yup.string().required(isRequiredField),
   email: Yup.string()
     .email("Inserisci un indirizzo email valido")
-    .required("Campo obbligatorio"),
-  username: Yup.string().required("Campo obbligatorio"),
+    .required(isRequiredField),
+  username: Yup.string().required(isRequiredField),
   password: Yup.string().required("Password is required"),
   passwordConfirmation: Yup.string()
     .oneOf([Yup.ref("password"), null], "Password errata")
-    .required("Campo obbligatorio"),
-  location: Yup.string().required('Campo obbligatorio'),
+    .required(isRequiredField),
+  location: Yup.string().required(isRequiredField),
 });
 
 const styles = {

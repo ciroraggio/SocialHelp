@@ -14,6 +14,7 @@ import { TextField } from "@mui/material";
 import UploadImageButton from "./Buttons/UploadImageButton";
 import * as Yup from "yup";
 import { closeNewPostDialog } from "../store/postSlice";
+import { isRequiredField } from "../utils/settings";
 
 export const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -60,8 +61,8 @@ CustomizedDialog.propTypes = {
 };
 
 const validationSchema = Yup.object().shape({
-  description: Yup.string().required("Campo obbligatorio"),
-  location: Yup.string().required("Campo obbligatorio"),
+  description: Yup.string().required(isRequiredField),
+  location: Yup.string().required(isRequiredField),
 });
 const valuesInitialState = {
   description: "",
