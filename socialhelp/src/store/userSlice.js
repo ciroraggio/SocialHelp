@@ -3,12 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 export const userSlice = createSlice({
   name: "user",
   initialState: {
-    name: "Account",
-    surname: "Test",
-    location: "Rome, Italy",
-    username: "account.test",
-    phone: '555555555',
-    email:'account@test.it',
+    name: "",
+    surname: "",
+    location: "",
+    username: "",
+    phone: "",
+    email: "",
+    following: [],
+    token: "",
   },
 
   reducers: {
@@ -30,18 +32,34 @@ export const userSlice = createSlice({
     setPhone: (state, action) => {
       state.phone = action.payload;
     },
+    setToken: (state, action) => {
+      state.token = action.payload;
+    },
+    setFollowing: (state, action) => {
+      state.following = action.payload;
+    },
     setUserData: (state, action) => {
-      state.name = action.payload.name;
-      state.surname = action.payload.surname;
-      state.username = action.payload.username;
-      state.location = action.payload.location;
-      state.email = action.payload.email;
-      state.phone = action.payload.phone;
-    }
+      state.name = action.payload.user.name;
+      state.surname = action.payload.user.surname;
+      state.username = action.payload.user.username;
+      state.location = action.payload.user.location;
+      state.email = action.payload.user.email;
+      state.phone = action.payload.user.phone;
+      state.following = action.payload.user.following || state.following;
+      state.token = action.payload.token || state.token;
+    },
   },
 });
 
-export const { setName, setSurname, setLocation, setUsername, setEmail, setPhone, setUserData} =
-  userSlice.actions;
+export const {
+  setName,
+  setSurname,
+  setLocation,
+  setUsername,
+  setEmail,
+  setPhone,
+  setUserData,
+  setFollowing,
+} = userSlice.actions;
 
 export const userReducer = userSlice.reducer;

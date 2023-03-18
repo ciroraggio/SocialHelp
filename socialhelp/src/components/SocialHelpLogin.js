@@ -12,11 +12,11 @@ import {
 import { Box } from "@mui/system";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { isRequiredField } from "../utils/settings";
-import { serverPostRequest } from "../utils/httpUtils";
+import { isRequiredField, LOCAL_STORAGE_TOKEN_KEY } from "../utils/settings";
+import { serverPostRequestNoAuth } from "../utils/httpUtils";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../store/userSlice";
-import SociaHelpAlert from "./SociaHelpAlert";
+import { closeSocialHelpAlert, openSocialHelpAlert } from "../store/appSlice";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required(isRequiredField),
@@ -70,17 +70,30 @@ const SocialHelpLogin = () => {
     validationSchema
       .validate(values, { abortEarly: false })
       .then(() => {
-        serverPostRequest(
-          `http://localhost:3001/login`,
-          { username: values.username, password: values.password}
-        )
+        serverPostRequestNoAuth(`login`, {
+          username: values.username,
+          password: values.password,
+        })
           .then((response) => response.json())
           .then((data) => {
-            dispatch(setUserData(data));
-            navigate("/feed");
+            if (data?.user && data?.token) {
+              localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, data.token);
+              dispatch(setUserData(data));
+              dispatch(closeSocialHelpAlert());
+              return navigate("/feed");
+            }
+            throw new Error();
           })
-          .catch((error) => <SociaHelpAlert severity="error" message="Errore login"/>);
-        
+          .catch((error) =>
+            dispatch(
+              openSocialHelpAlert({
+                type: "error",
+                message: "Errore, verificare le credenziali e riprovare!",
+                vertical: "top",
+                horizontal: "right",
+              })
+            )
+          );
       })
       .catch((validationErrors) => {
         const errors = {};

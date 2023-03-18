@@ -12,6 +12,10 @@ import {
 import { Box } from "@mui/system";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { isRequiredField } from "../utils/settings";
+import { serverPostRequestNoAuth } from "../utils/httpUtils";
+import { openSocialHelpAlert } from "../store/appSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required(isRequiredField),
@@ -25,6 +29,7 @@ const validationSchema = Yup.object().shape({
     .oneOf([Yup.ref("password"), null], "Password errata")
     .required(isRequiredField),
   location: Yup.string().required(isRequiredField),
+  phone: Yup.string().required(isRequiredField),
 });
 
 const styles = {
@@ -54,13 +59,20 @@ const styles = {
 };
 
 const SocialHelpRegistration = () => {
+  const dispatch = useDispatch();
   const [values, setValues] = useState({
+    name: "",
+    surname: "",
     email: "",
+    username: "",
     password: "",
+    passwordConfirmation: "",
+    location: "",
+    phone: "",
   });
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState("");
-
+  const navigate = useNavigate();
   const handleChange = (event) => {
     setValues({
       ...values,
@@ -73,7 +85,31 @@ const SocialHelpRegistration = () => {
     validationSchema
       .validate(values, { abortEarly: false })
       .then(() => {
-        // Effettua la richiesta di login qui
+        const { passwordConfirm, ...userData } = values;
+        serverPostRequestNoAuth("user/createUser", userData)
+          .then((res) => res.json())
+          .then((data) => {
+            navigate("/login");
+            return dispatch(
+              openSocialHelpAlert({
+                type: "success",
+                message: "Registrazione avvenuta con successo!",
+                vertical: "top",
+                horizontal: "right",
+              })
+            );
+          })
+          .catch((err) =>
+            dispatch(
+              openSocialHelpAlert({
+                type: "error",
+                message:
+                  "Errore nella richiesta di registrazione, riprovare più tardi.",
+                vertical: "top",
+                horizontal: "right",
+              })
+            )
+          );
       })
       .catch((validationErrors) => {
         const errors = {};
@@ -114,8 +150,8 @@ const SocialHelpRegistration = () => {
             </Typography>
             <form onSubmit={handleSubmit}>
               <TextField
-                id="nome"
-                name="nome"
+                id="name"
+                name="name"
                 label="Nome"
                 type="nome"
                 value={values.name}
@@ -134,6 +170,30 @@ const SocialHelpRegistration = () => {
                 onChange={handleChange}
                 error={Boolean(errors.surname)}
                 helperText={errors.surname}
+                fullWidth
+                sx={styles.formInput}
+              />
+              <TextField
+                id="location"
+                name="location"
+                label="Città"
+                type="text"
+                value={values.location}
+                onChange={handleChange}
+                error={Boolean(errors.location)}
+                helperText={errors.location}
+                fullWidth
+                sx={styles.formInput}
+              />
+              <TextField
+                id="phone"
+                name="phone"
+                label="Cellulare"
+                type="tel"
+                value={values.phone}
+                onChange={handleChange}
+                error={Boolean(errors.phone)}
+                helperText={errors.phone}
                 fullWidth
                 sx={styles.formInput}
               />
@@ -219,18 +279,6 @@ const SocialHelpRegistration = () => {
                     </InputAdornment>
                   ),
                 }}
-                sx={styles.formInput}
-              />
-              <TextField
-                id="location"
-                name="location"
-                label="Città"
-                type="text"
-                value={values.location}
-                onChange={handleChange}
-                error={Boolean(errors.location)}
-                helperText={errors.location}
-                fullWidth
                 sx={styles.formInput}
               />
 

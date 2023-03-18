@@ -9,11 +9,13 @@ import { SearchOutlined } from "@mui/icons-material";
 import SocialHelpExplore from "./SocialHelpExplore";
 import { tabValues } from "../utils/settings";
 import SocialHelpToolbar from "./SocialHelpToolbar";
+import { useDispatch } from "react-redux";
+import { setAllProfilesFetched } from "../store/appSlice";
 
 const SocialHelpTabs = (props) => {
   const [tabValue, setTabValue] = useState(props.tabValue || tabValues.feed);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const handleTabChange = (event, newValue) => {
     switch (newValue) {
       case tabValues.feed:
@@ -23,6 +25,7 @@ const SocialHelpTabs = (props) => {
         navigate(`/profile`);
         break;
       case tabValues.explore:
+        dispatch(setAllProfilesFetched(false));
         navigate("/explore");
         break;
       default:
