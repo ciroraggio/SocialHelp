@@ -2,7 +2,7 @@ import React from "react";
 import { IconButton, Tooltip } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
-import { LOCAL_STORAGE_TOKEN_KEY } from "../../utils/settings";
+import { LOCAL_STORAGE_TOKEN_KEY, WINDOW_PROFILES } from "../../utils/settings";
 import { useDispatch, useSelector } from "react-redux";
 import { openSocialHelpAlert, setToken } from "../../store/appSlice";
 import { serverPostRequestAuth } from "../../utils/httpUtils";
@@ -16,6 +16,7 @@ const LogoutButton = () => {
       .then(() => {
         localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
         dispatch(setToken(""));
+        if (window[WINDOW_PROFILES]) window[WINDOW_PROFILES] = undefined;
         navigate("/login");
       })
       .catch((err) =>

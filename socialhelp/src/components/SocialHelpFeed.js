@@ -8,19 +8,34 @@ import SocialHelpProgress from "./SocialHelpProgress";
 import SocialHelpAddPostDialog from "./SocialHelpAddPostDialog";
 import SocialHelpShareDialog from "./SocialHelpShareDialog";
 import SocialHelpResolveDialog from "./SocialHelpResolveDialog";
+import { serverGetRequest } from "../utils/httpUtils";
+import { useSelector } from "react-redux";
 
 const SocialHelpFeed = () => {
   const [posts, setPosts] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
 
+  const { token } = useSelector((state) => state.user);
+
   const fetchData = async () => {
     // fetch data
-    // const newPosts = await fetch(`https://api.example.com/feed?page=${page}`).then(res => res.json());
-    const newPosts = [];
-    setPosts((prevPosts) => [...prevPosts, ...fakeData]);
-    setHasMore(newPosts.length > 0);
-    setPage((prevPage) => prevPage + 1);
+    const newPosts = serverGetRequest("post/getAllFeedPostsByUser", token)
+      .then((res) => res.json())
+      .then((data) => {
+        setPosts((prevPosts) => [
+          ...prevPosts,
+          ...data.map((dataObject) => {
+            const { user, ...postData } = dataObject;
+            return {
+              user,
+              post: postData,
+            };
+          }),
+        ]);
+        setHasMore(newPosts.length > 0);
+        setPage((prevPage) => prevPage + 1);
+      });
   };
 
   useEffect(() => {
@@ -33,12 +48,12 @@ const SocialHelpFeed = () => {
         dataLength={posts.length}
         next={fetchData}
         hasMore={hasMore}
-        loader={<SocialHelpProgress showLogo={false} />}
+        loader={<SocialHelpProgress showLogo />}
         endMessage={<p>Fine dei contenuti</p>}
       >
         <Grid container spacing={2} justify="center" align="center">
           {posts.map((postInfo) => (
-            <Grid item xs={12} key={postInfo.post.id}>
+            <Grid item xs={12} key={postInfo.post._id}>
               <SocialHelpPost post={postInfo.post} user={postInfo.user} />
             </Grid>
           ))}

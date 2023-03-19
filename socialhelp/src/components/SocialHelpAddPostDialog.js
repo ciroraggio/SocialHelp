@@ -15,6 +15,8 @@ import UploadImageButton from "./Buttons/UploadImageButton";
 import * as Yup from "yup";
 import { closeNewPostDialog } from "../store/postSlice";
 import { isRequiredField } from "../utils/settings";
+import { serverPostRequestAuth } from "../utils/httpUtils";
+import { openSocialHelpAlert } from "../store/appSlice";
 
 export const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -70,8 +72,9 @@ const valuesInitialState = {
 };
 const SocialHelpAddPostDialog = () => {
   const { newPostDialog } = useSelector((state) => state.post);
+  const { location, token } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const [values, setValues] = useState(valuesInitialState);
+  const [values, setValues] = useState({ ...valuesInitialState, location });
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState("");
   const handleClose = () => {
@@ -83,11 +86,26 @@ const SocialHelpAddPostDialog = () => {
     validationSchema
       .validate(values, { abortEarly: false })
       .then(() => {
-        // TODO pubblica post
-        handleClose();
-        setValues(valuesInitialState);
-        setErrors({});
-        setServerError("");
+        serverPostRequestAuth("post/createPost", values, token)
+          .then((res) => {
+            handleClose();
+            setValues(valuesInitialState);
+            setErrors({});
+            setServerError("");
+            return;
+          })
+          .catch((err) => {
+            dispatch(
+              openSocialHelpAlert({
+                type: "error",
+                message:
+                  "Pubblicazione del post non riuscita, riprovare più tardi!",
+                vertical: "top",
+                horizontal: "right",
+              })
+            );
+          });
+        throw new Error();
       })
       .catch((validationErrors) => {
         const errors = {};

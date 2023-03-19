@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { TextField, Grid, Box, IconButton } from "@mui/material";
+import { TextField, Grid, Box, IconButton, Avatar } from "@mui/material";
 import { profiles } from "../utils/dataUtils";
 import MaterialReactTable from "material-react-table";
 import SocialHelpFollowButton from "./Buttons/SocialHelpFollowButton";
@@ -11,12 +11,15 @@ import {
   setIsLoading,
 } from "../store/appSlice";
 import { serverGetRequest } from "../utils/httpUtils";
+import { red } from "@mui/material/colors";
 
 const SocialHelpExplore = () => {
   const [searchText, setSearchText] = useState("");
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.user);
+  const { token, username: usernameInSession } = useSelector(
+    (state) => state.user
+  );
 
   const columns = [
     {
@@ -31,13 +34,9 @@ const SocialHelpExplore = () => {
             gap: "1rem",
           }}
         >
-          <img
-            alt="avatar"
-            height={30}
-            src={row.original.avatarUrl}
-            loading="lazy"
-            style={{ borderRadius: "50%", scale: "200%" }}
-          />
+          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+            {row.original.avatarUrl || `${row.original.name[0]}${row.original.surname[0]}`}
+          </Avatar>
         </Box>
       ),
     },
@@ -105,7 +104,9 @@ const SocialHelpExplore = () => {
         .then((res) => res.json())
         .then((data) => {
           if (data && data.length > 0) {
-            window.WINDOW_PROFILES = data;
+            window.WINDOW_PROFILES = data.filter(
+              (profile) => profile.username !== usernameInSession
+            );
             dispatch(setAllProfilesFetched(true));
             dispatch(setIsLoading(false));
             return;
@@ -133,7 +134,7 @@ const SocialHelpExplore = () => {
       <Grid item xs={12}>
         <TextField
           fullWidth
-          label="Cerca profili"
+          label="Cerca profili o località"
           variant="outlined"
           value={searchText}
           onChange={handleSearchTextChange}

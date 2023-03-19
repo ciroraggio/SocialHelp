@@ -29,31 +29,35 @@ const SocialHelpProfile = (props) => {
   };
 
   const handleSave = () => {
-    dispatch(setIsLoading(true));
-    serverPutRequest("user/updateCurrentUser", values, token)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data && data.username) {
-          dispatch(setUserData({ user: data }));
+    if (values !== oldValues) {
+      dispatch(setIsLoading(true));
+      serverPutRequest("user/updateCurrentUser", values, token)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data && data.username) {
+            dispatch(setUserData({ user: data }));
+            dispatch(setIsLoading(false));
+            setEditing(false);
+          } else {
+            throw new Error();
+          }
+        })
+        .catch((err) => {
           dispatch(setIsLoading(false));
           setEditing(false);
-        } else {
-          throw new Error();
-        }
-      })
-      .catch((err) => {
-        dispatch(setIsLoading(false));
-        setEditing(false);
-        dispatch(
-          openSocialHelpAlert({
-            type: "error",
-            message:
-              "Errore nella modifica dei dati personali, riprovare più tardi.",
-            vertical: "bottom",
-            horizontal: "left",
-          })
-        );
-      });
+          dispatch(
+            openSocialHelpAlert({
+              type: "error",
+              message:
+                "Errore nella modifica dei dati personali, riprovare più tardi.",
+              vertical: "bottom",
+              horizontal: "left",
+            })
+          );
+        });
+    } else {
+      setEditing(false);
+    }
   };
 
   const handleCancel = () => {
@@ -94,7 +98,7 @@ const SocialHelpProfile = (props) => {
               sx={{ width: 250, height: 250, bgcolor: red[500] }}
               aria-label="recipe"
             >
-              {`${values.name}${values.surname}`}
+              {`${userStored.name[0]}${userStored.surname[0]}`}
             </Avatar>
           )}
         </Grid>

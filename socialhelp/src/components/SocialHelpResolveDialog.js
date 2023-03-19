@@ -76,7 +76,7 @@ const SocialHelpResolveDialog = () => {
         Risolvi il problema
       </CustomizedDialog>
       <DialogContent dividers>
-        <DialogContentText paddingBottom={4}>Fai una proposta di risoluzione, l'utente che ha creato il post potrà accettarla e condividere la risoluzione con gli altri utenti.</DialogContentText>
+        <DialogContentText paddingBottom={4}>Fai una proposta di risoluzione. L'utente che ha creato il post potrà accettarla e condividere la risoluzione con gli altri utenti.</DialogContentText>
         <form onSubmit={handleSave}>
           <TextField
             id="description"

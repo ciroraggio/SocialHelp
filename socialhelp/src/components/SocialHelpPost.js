@@ -9,13 +9,12 @@ import { red } from "@mui/material/colors";
 import { CardMedia } from "@mui/material";
 import SharePostButton from "./Buttons/SharePostButton";
 import ResolvePostButton from "./Buttons/ResolvePostButton";
-import PostAddIcon from '@mui/icons-material/PostAdd';
 import SpreadPostButton from "./Buttons/SpreadPostButton";
 
 const SocialHelpPost = (props) => {
   const { user, post } = props;
   const [images, setImages] = useState(null);
-  
+
   useEffect(() => {
     setImages(post.images);
   }, []);
@@ -25,7 +24,7 @@ const SocialHelpPost = (props) => {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            {user.profileImage || user.initials}
+            {user.profileImage || `${user.name[0]}${user.surname[0]}`}
           </Avatar>
         }
         title={
