@@ -11,7 +11,6 @@ import {
   setIsLoading,
 } from "../store/appSlice";
 import { serverGetRequest } from "../utils/httpUtils";
-import { red } from "@mui/material/colors";
 
 const SocialHelpExplore = () => {
   const [searchText, setSearchText] = useState("");
@@ -34,8 +33,9 @@ const SocialHelpExplore = () => {
             gap: "1rem",
           }}
         >
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            {row.original.avatarUrl || `${row.original.name[0]}${row.original.surname[0]}`}
+          <Avatar sx={{ bgcolor: "#5bbcdd" }} aria-label="recipe">
+            {row.original.avatarUrl ||
+              `${row.original.name[0]}${row.original.surname[0]}`}
           </Avatar>
         </Box>
       ),
@@ -83,7 +83,9 @@ const SocialHelpExplore = () => {
   useEffect(() => {
     if (searchText) {
       setData(
-        window.WINDOW_PROFILES.filter((profile) =>
+        window.WINDOW_PROFILES.filter(
+          (profile) => profile.username !== usernameInSession
+        ).filter((profile) =>
           [
             profile.name,
             profile.surname,
@@ -150,7 +152,11 @@ const SocialHelpExplore = () => {
           },
         }}
         columns={columns}
-        data={searchText ? data : window.WINDOW_PROFILES || []}
+        data={
+          searchText
+            ? data
+            : window.WINDOW_PROFILES || []
+        }
         enableColumnFilterModes={false}
         enableColumnOrdering={false}
         enableFilters={false}

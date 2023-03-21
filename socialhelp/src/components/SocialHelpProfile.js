@@ -95,7 +95,7 @@ const SocialHelpProfile = (props) => {
             />
           ) : (
             <Avatar
-              sx={{ width: 250, height: 250, bgcolor: red[500] }}
+              sx={{ width: 250, height: 250, bgcolor: '#5bbcdd' }}
               aria-label="recipe"
             >
               {`${userStored.name[0]}${userStored.surname[0]}`}

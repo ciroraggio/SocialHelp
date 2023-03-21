@@ -25,7 +25,7 @@ const SocialHelpFeed = () => {
       .then((data) => {
         setPosts((prevPosts) => [
           ...prevPosts,
-          ...data.map((dataObject) => {
+          ...data.reverse().map((dataObject) => {
             const { user, ...postData } = dataObject;
             return {
               user,
@@ -46,17 +46,18 @@ const SocialHelpFeed = () => {
     <>
       <InfiniteScroll
         dataLength={posts.length}
-        next={fetchData}
+        // next={fetchData}
         hasMore={hasMore}
         loader={<SocialHelpProgress showLogo />}
         endMessage={<p>Fine dei contenuti</p>}
       >
         <Grid container spacing={2} justify="center" align="center">
-          {posts.map((postInfo) => (
-            <Grid item xs={12} key={postInfo.post._id}>
-              <SocialHelpPost post={postInfo.post} user={postInfo.user} />
-            </Grid>
-          ))}
+          {posts
+            .map((postInfo) => (
+              <Grid item xs={12} key={postInfo.post._id}>
+                <SocialHelpPost post={postInfo.post} user={postInfo.user} />
+              </Grid>
+            ))}
         </Grid>
       </InfiniteScroll>
 

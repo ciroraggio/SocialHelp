@@ -17,3 +17,5 @@ export const handleFacebookShare = (postUrl) => {
     "_blank"
   );
 };
+
+export const getPostUrl = (post) => `https://socialhelep.com/${post._id}`;

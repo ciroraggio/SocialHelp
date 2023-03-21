@@ -4,10 +4,10 @@ import ShareIcon from "@mui/icons-material/Share";
 import { useDispatch } from "react-redux";
 import { openSharePostDialog, setPostUrl } from "../../store/postSlice";
 
-const SharePostButton = ({ postInformation }) => {
+const SharePostButton = ({ postUrl }) => {
   const dispatch = useDispatch();
   const onClick = () => {
-    dispatch(setPostUrl(postInformation.postUrl));
+    dispatch(setPostUrl(postUrl));
     dispatch(openSharePostDialog());
   };
 

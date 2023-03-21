@@ -3,12 +3,21 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import LogoutButton from "./Buttons/LogoutButton";
+import { Avatar, Tooltip } from "@mui/material";
+import { useSelector } from "react-redux";
+import { red } from "@mui/material/colors";
 
 const SocialHelpToolbar = () => {
+  const user = useSelector((state) => state.user);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar sx={{ height: "80px" }}>
+          <Tooltip title={user.username} arrow placement="right">
+            <Avatar sx={{ bgcolor: '#5bbcdd' }} aria-label="recipe">
+              {user.profileImage || `${user.name[0]}${user.surname[0]}`}
+            </Avatar>
+          </Tooltip>
           <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
             <img
               src="/assets/images/icons/SocialHelpToolbarLogo.png"
