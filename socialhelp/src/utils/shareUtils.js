@@ -18,4 +18,4 @@ export const handleFacebookShare = (postUrl) => {
   );
 };
 
-export const getPostUrl = (post) => `https://socialhelep.com/${post._id}`;
+export const getPostUrl = (post) => `https://socialhelp.com/${post._id}`;
