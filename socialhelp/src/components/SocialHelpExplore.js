@@ -11,6 +11,7 @@ import {
   setIsLoading,
 } from "../store/appSlice";
 import { serverGetRequest } from "../utils/httpUtils";
+import SocialHelpAvatar from "./SocialHelpAvatar";
 
 const SocialHelpExplore = () => {
   const [searchText, setSearchText] = useState("");
@@ -33,10 +34,7 @@ const SocialHelpExplore = () => {
             gap: "1rem",
           }}
         >
-          <Avatar sx={{ bgcolor: "#5bbcdd" }} aria-label="recipe">
-            {row.original.avatarUrl ||
-              `${row.original.name[0]}${row.original.surname[0]}`}
-          </Avatar>
+          <SocialHelpAvatar user={row.original} />
         </Box>
       ),
     },
@@ -152,11 +150,7 @@ const SocialHelpExplore = () => {
           },
         }}
         columns={columns}
-        data={
-          searchText
-            ? data
-            : window.WINDOW_PROFILES || []
-        }
+        data={searchText ? data : window.WINDOW_PROFILES || []}
         enableColumnFilterModes={false}
         enableColumnOrdering={false}
         enableFilters={false}

@@ -13,6 +13,7 @@ import SpreadPostButton from "./Buttons/SpreadPostButton";
 import { useSelector } from "react-redux";
 import DeletePostButton from "./Buttons/DeletePostButton";
 import { getPostUrl } from "../utils/shareUtils";
+import SocialHelpAvatar from "./SocialHelpAvatar";
 
 const SocialHelpPost = (props) => {
   const { user, post } = props;
@@ -34,11 +35,7 @@ const SocialHelpPost = (props) => {
   return (
     <Card sx={{ maxWidth: 800 }}>
       <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: '#5bbcdd' }} aria-label="recipe">
-            {user.profileImage || `${user.name[0]}${user.surname[0]}`}
-          </Avatar>
-        }
+        avatar={<SocialHelpAvatar user={user} />}
         title={
           <>
             <Typography variant="subtitle1" color="text" align="left">
@@ -73,7 +70,9 @@ const SocialHelpPost = (props) => {
       <CardActions disableSpacing>
         <SpreadPostButton />
         {usernameInSession !== user.username && <ResolvePostButton />}
-        {usernameInSession === user.username && <DeletePostButton />}
+        {usernameInSession === user.username && (
+          <DeletePostButton post={post} />
+        )}
         <Typography
           variant="caption"
           color="black"

@@ -9,13 +9,15 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
-import { TextField } from "@mui/material";
+import { Card, CardContent, CardHeader, DialogContentText, TextField, Typography } from "@mui/material";
 import UploadImageButton from "./Buttons/UploadImageButton";
 import * as Yup from "yup";
 import { closeNewPostDialog } from "../store/postSlice";
 import { isRequiredField } from "../utils/settings";
 import { serverPostRequestAuth } from "../utils/httpUtils";
 import { openSocialHelpAlert } from "../store/appSlice";
+import SocialHelpAvatar from "./SocialHelpAvatar";
+import { Box } from "@mui/system";
 
 export const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -72,6 +74,7 @@ const valuesInitialState = {
 const SocialHelpAddPostDialog = () => {
   const { newPostDialog } = useSelector((state) => state.post);
   const { location, token } = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [values, setValues] = useState({ ...valuesInitialState, location });
   const [errors, setErrors] = useState({});
@@ -132,42 +135,60 @@ const SocialHelpAddPostDialog = () => {
         }}
         maxWidth="xs"
       >
-        <CustomizedDialog onClose={handleClose}>
-          Aggiungi nuovo post
-        </CustomizedDialog>
         <DialogContent dividers>
-          <form onSubmit={handlePublish}>
-            <TextField
-              id="description"
-              name="description"
-              label="Descrizione"
-              multiline
-              rows={7}
-              type="text"
-              value={values.description}
-              onChange={handleChange}
-              error={Boolean(errors.description)}
-              helperText={errors.description}
-              fullWidth
-              sx={styles.formInput}
+            <CardHeader
+              avatar={<SocialHelpAvatar user={user} />}
+              title={
+                <>
+                  <Typography variant="subtitle1" color="text" align="left">
+                    {`${user.name} ${user.surname}`}
+                  </Typography>
+                </>
+              }
+              subheader={
+                <Typography
+                  variant="subtitle2"
+                  color="text.secondary"
+                  align="left"
+                >
+                  {user.location}
+                </Typography>
+              }
             />
-            <TextField
-              id="location"
-              name="location"
-              label="Location"
-              type="text"
-              value={values.location}
-              onChange={handleChange}
-              error={Boolean(errors.location)}
-              helperText={errors.location}
-              fullWidth
-              sx={styles.formInput}
-            />
-            {serverError && <p>{serverError}</p>}
-          </form>
-          <div style={{ paddingTop: "10px" }}>
-            <UploadImageButton />
-          </div>
+            <CardContent>
+              <form onSubmit={handlePublish}>
+                <TextField
+                  id="description"
+                  name="description"
+                  label="Descrizione"
+                  multiline
+                  rows={7}
+                  type="text"
+                  value={values.description}
+                  onChange={handleChange}
+                  error={Boolean(errors.description)}
+                  helperText={errors.description}
+                  fullWidth
+                  sx={styles.formInput}
+                />
+                <TextField
+                  id="location"
+                  name="location"
+                  label="Location"
+                  type="text"
+                  value={values.location}
+                  onChange={handleChange}
+                  error={Boolean(errors.location)}
+                  helperText={errors.location}
+                  fullWidth
+                  sx={styles.formInput}
+                />
+                {serverError && <p>{serverError}</p>}
+              </form>
+              <div style={{ paddingTop: "10px" }}>
+                <UploadImageButton />
+              </div>
+            </CardContent>
         </DialogContent>
         <DialogActions>
           <Button

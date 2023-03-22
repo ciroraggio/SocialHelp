@@ -6,6 +6,7 @@ import LogoutButton from "./Buttons/LogoutButton";
 import { Avatar, Tooltip } from "@mui/material";
 import { useSelector } from "react-redux";
 import { red } from "@mui/material/colors";
+import SocialHelpAvatar from "./SocialHelpAvatar";
 
 const SocialHelpToolbar = () => {
   const user = useSelector((state) => state.user);
@@ -14,9 +15,7 @@ const SocialHelpToolbar = () => {
       <AppBar position="static">
         <Toolbar sx={{ height: "80px" }}>
           <Tooltip title={user.username} arrow placement="right">
-            <Avatar sx={{ bgcolor: '#5bbcdd' }} aria-label="recipe">
-              {user.profileImage || `${user.name[0]}${user.surname[0]}`}
-            </Avatar>
+            <SocialHelpAvatar user={user} />
           </Tooltip>
           <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
             <img
