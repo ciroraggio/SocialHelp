@@ -15,7 +15,7 @@ import * as Yup from "yup";
 import { closeNewPostDialog } from "../store/postSlice";
 import { isRequiredField } from "../utils/settings";
 import { serverPostRequestAuth } from "../utils/httpUtils";
-import { openSocialHelpAlert } from "../store/appSlice";
+import { openSocialHelpAlert, setIsLoading } from "../store/appSlice";
 import SocialHelpAvatar from "./SocialHelpAvatar";
 import { Box } from "@mui/system";
 
@@ -88,15 +88,18 @@ const SocialHelpAddPostDialog = () => {
     validationSchema
       .validate(values, { abortEarly: false })
       .then(() => {
+        dispatch(setIsLoading(true));
         serverPostRequestAuth("post/createPost", values, token)
           .then((res) => {
             handleClose();
             setValues(valuesInitialState);
             setErrors({});
             setServerError("");
+            dispatch(setIsLoading(false));
             return;
           })
           .catch((err) => {
+            dispatch(setIsLoading(false));
             dispatch(
               openSocialHelpAlert({
                 type: "error",

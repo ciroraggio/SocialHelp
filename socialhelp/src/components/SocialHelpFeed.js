@@ -18,7 +18,7 @@ const SocialHelpFeed = () => {
 
   const { token } = useSelector((state) => state.user);
 
-  const fetchData = async () => {
+  const getAllFeedPost = async () => {
     // fetch data
     const newPosts = serverGetRequest("post/getAllFeedPostsByUser", token)
       .then((res) => res.json())
@@ -39,7 +39,7 @@ const SocialHelpFeed = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    getAllFeedPost();
   }, []);
 
   return (

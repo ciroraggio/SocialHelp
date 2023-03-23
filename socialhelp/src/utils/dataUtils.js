@@ -175,5 +175,30 @@ export const profiles = [
     username: "janedoe",
     location: "Rome,Italy",
     avatarUrl: "https://picsum.photos/200",
-  }
+  },
+];
+
+export const fakeNotifications = [
+  {
+    _id: "aodioidjsoiasjdoisajd",
+    user: {
+      name: 'Mario',
+      surname: 'Rossi',
+      username: 'mario.rossi'
+    },
+    post: "tuo post",
+    resolved: false,
+    description: "Questa è la mia proposta di risoluzione al tuo problema",
+  },
+  {
+    _id: "lkadlkndamsndkejd",
+    user: {
+      name: 'Giuseppe',
+      surname: 'Verdi',
+      username: 'giuseppe.verdi'
+    },
+    post: "tuo post",
+    resolved: false,
+    description: "Questa è la mia proposta di risoluzione al tuo problema",
+  },
 ];

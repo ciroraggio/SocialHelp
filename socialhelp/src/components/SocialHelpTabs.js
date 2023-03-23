@@ -11,6 +11,8 @@ import { tabValues } from "../utils/settings";
 import SocialHelpToolbar from "./SocialHelpToolbar";
 import { useDispatch } from "react-redux";
 import { setAllProfilesFetched } from "../store/appSlice";
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import SocialHelpNotifications from "./SocialHelpNotifications";
 
 const SocialHelpTabs = (props) => {
   const [tabValue, setTabValue] = useState(props.tabValue || tabValues.feed);
@@ -20,6 +22,9 @@ const SocialHelpTabs = (props) => {
     switch (newValue) {
       case tabValues.feed:
         navigate("/feed");
+        break;
+      case tabValues.notifications:
+        navigate("/notifications");
         break;
       case tabValues.profile:
         navigate(`/profile`);
@@ -51,6 +56,12 @@ const SocialHelpTabs = (props) => {
           sx={{ textTransform: "none" }}
         />
         <Tab
+          label="Notifications"
+          icon={<NotificationsActiveIcon />}
+          iconPosition="start"
+          sx={{ textTransform: "none" }}
+        />
+        <Tab
           label="Explore"
           icon={<SearchOutlined />}
           iconPosition="start"
@@ -65,6 +76,7 @@ const SocialHelpTabs = (props) => {
       </Tabs>
       <Box sx={{ p: 2 }}>
         {tabValue === tabValues.feed && <SocialHelpFeed />}
+        {tabValue === tabValues.notifications && <SocialHelpNotifications />}
         {tabValue === tabValues.explore && <SocialHelpExplore />}
         {tabValue === tabValues.profile && <SocialHelpProfile />}
       </Box>

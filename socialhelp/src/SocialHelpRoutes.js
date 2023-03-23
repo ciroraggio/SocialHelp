@@ -55,6 +55,10 @@ const SocialHelpRoutes = () => {
           path="/explore"
           element={<SocialHelpTabs tabValue={tabValues.explore} />}
         />
+        <Route
+          path="/notifications"
+          element={<SocialHelpTabs tabValue={tabValues.notifications} />}
+        />
       </Routes>
     </BrowserRouter>
   );
