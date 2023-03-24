@@ -14,6 +14,16 @@ export const userSlice = createSlice({
   },
 
   reducers: {
+    resetUser: (state, action) => {
+      state.name = "";
+      state.surname = "";
+      state.username = "";
+      state.location = "";
+      state.email = "";
+      state.phone = "";
+      state.following = [];
+      state.token = "";
+    },
     setName: (state, action) => {
       state.name = action.payload;
     },
@@ -52,6 +62,7 @@ export const userSlice = createSlice({
 });
 
 export const {
+  resetUser,
   setName,
   setSurname,
   setLocation,

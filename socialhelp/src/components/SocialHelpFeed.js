@@ -52,12 +52,11 @@ const SocialHelpFeed = () => {
         endMessage={<p>Fine dei contenuti</p>}
       >
         <Grid container spacing={2} justify="center" align="center">
-          {posts
-            .map((postInfo) => (
-              <Grid item xs={12} key={postInfo.post._id}>
-                <SocialHelpPost post={postInfo.post} user={postInfo.user} />
-              </Grid>
-            ))}
+          {posts.map((postInfo) => (
+            <Grid item xs={12} key={postInfo.post._id}>
+              <SocialHelpPost post={postInfo.post} user={postInfo.user} />
+            </Grid>
+          ))}
         </Grid>
       </InfiniteScroll>
 

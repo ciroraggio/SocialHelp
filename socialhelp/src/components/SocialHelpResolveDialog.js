@@ -11,6 +11,8 @@ import { closeResolvePostDialog } from "../store/postSlice";
 import * as Yup from "yup";
 import { BootstrapDialog, CustomizedDialog } from "./SocialHelpAddPostDialog";
 import { isRequiredField } from "../utils/settings";
+import { openSocialHelpAlert, setIsLoading } from "../store/appSlice";
+import { serverPostRequestAuth } from "../utils/httpUtils";
 
 const validationSchema = Yup.object().shape({
   description: Yup.string().required(isRequiredField),
@@ -28,6 +30,7 @@ const styles = {
 
 const SocialHelpResolveDialog = () => {
   const { resolvePostDialog } = useSelector((state) => state.post);
+  const { token } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [values, setValues] = useState(valuesInitialState);
   const [errors, setErrors] = useState({});
@@ -48,11 +51,34 @@ const SocialHelpResolveDialog = () => {
     validationSchema
       .validate(values, { abortEarly: false })
       .then(() => {
-        // TODO pubblica post
-        handleClose();
-        setValues(valuesInitialState);
-        setErrors({});
-        setServerError("");
+        dispatch(setIsLoading(true));
+        const body = {
+          description: values.description,
+          user: resolvePostDialog.data.user._id,
+          post: resolvePostDialog.data.post._id,
+        };
+        serverPostRequestAuth("resolution/createResolution", body, token)
+          .then((res) => {
+            handleClose();
+            setValues(valuesInitialState);
+            setErrors({});
+            setServerError("");
+            dispatch(setIsLoading(false));
+            return;
+          })
+          .catch((err) => {
+            dispatch(setIsLoading(false));
+            dispatch(
+              openSocialHelpAlert({
+                type: "error",
+                message:
+                  "Proposta di risoluzione non inviata, riprovare o segnalare l'errore!",
+                vertical: "top",
+                horizontal: "right",
+              })
+            );
+          });
+        throw new Error();
       })
       .catch((validationErrors) => {
         const errors = {};
@@ -76,7 +102,10 @@ const SocialHelpResolveDialog = () => {
         Risolvi il problema
       </CustomizedDialog>
       <DialogContent dividers>
-        <DialogContentText paddingBottom={4}>Fai una proposta di risoluzione. L'utente che ha creato il post potrà accettarla e condividere la risoluzione con gli altri utenti.</DialogContentText>
+        <DialogContentText paddingBottom={4}>
+          Fai una proposta di risoluzione. L'utente che ha creato il post potrà
+          accettarla e condividere la risoluzione con gli altri utenti.
+        </DialogContentText>
         <form onSubmit={handleSave}>
           <TextField
             id="description"

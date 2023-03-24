@@ -36,6 +36,7 @@ export const postSlice = createSlice({
     },
     openResolvePostDialog: (state, action) => {
       state.resolvePostDialog.open = true;
+      state.resolvePostDialog.data = action.payload;
     },
     closeResolvePostDialog: (state, action) => {
       state.resolvePostDialog.open = false;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Tabs, Tab, Box } from "@mui/material";
+import { Tabs, Tab, Box, Badge } from "@mui/material";
 import SocialHelpFeed from "./SocialHelpFeed";
 import SocialHelpProfile from "./SocialHelpProfile";
 import HomeIcon from "@mui/icons-material/Home";
@@ -9,13 +9,14 @@ import { SearchOutlined } from "@mui/icons-material";
 import SocialHelpExplore from "./SocialHelpExplore";
 import { tabValues } from "../utils/settings";
 import SocialHelpToolbar from "./SocialHelpToolbar";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAllProfilesFetched } from "../store/appSlice";
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import SocialHelpNotifications from "./SocialHelpNotifications";
 
 const SocialHelpTabs = (props) => {
   const [tabValue, setTabValue] = useState(props.tabValue || tabValues.feed);
+  const { notifications } = useSelector((state) => state.app);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleTabChange = (event, newValue) => {
@@ -57,7 +58,19 @@ const SocialHelpTabs = (props) => {
         />
         <Tab
           label="Notifications"
-          icon={<NotificationsActiveIcon />}
+          icon={
+            notifications > 0 ? (
+              <Badge
+                badgeContent={notifications}
+                color="error"
+                position="start"
+              >
+                <NotificationsIcon />
+              </Badge>
+            ) : (
+              <NotificationsIcon />
+            )
+          }
           iconPosition="start"
           sx={{ textTransform: "none" }}
         />

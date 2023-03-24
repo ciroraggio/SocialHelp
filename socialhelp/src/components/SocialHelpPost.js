@@ -67,7 +67,14 @@ const SocialHelpPost = (props) => {
       )}
       <CardActions disableSpacing>
         <SpreadPostButton />
-        {usernameInSession !== user.username && <ResolvePostButton />}
+        {usernameInSession !== user.username && (
+          <ResolvePostButton
+            postInfo={{
+              user,
+              post,
+            }}
+          />
+        )}
         {usernameInSession === user.username && (
           <DeletePostButton post={post} />
         )}

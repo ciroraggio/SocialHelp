@@ -13,12 +13,16 @@ export const appSlice = createSlice({
       vertical: "top",
       horizontal: "right",
     },
-    allProfilesFetched: false
+    allProfilesFetched: false,
+    notifications: 0,
   },
 
   reducers: {
     setToken: (state, action) => {
       state.token = action.payload;
+    },
+    setNotifications: (state, action) => {
+      state.notifications = action.payload;
     },
     setTextSearch: (state, action) => {
       state.textSearch = action.payload;
@@ -48,6 +52,7 @@ export const appSlice = createSlice({
 
 export const {
   setToken,
+  setNotifications,
   setTextSearch,
   setIsLoading,
   openSocialHelpAlert,

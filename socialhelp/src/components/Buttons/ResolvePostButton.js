@@ -4,10 +4,10 @@ import ReplyIcon from "@mui/icons-material/Reply";
 import { useDispatch } from "react-redux";
 import { openResolvePostDialog } from "../../store/postSlice";
 
-const ResolvePostButton = () => {
+const ResolvePostButton = ({ postInfo }) => {
   const dispatch = useDispatch();
   const onClick = () => {
-    dispatch(openResolvePostDialog());
+    dispatch(openResolvePostDialog(postInfo));
   };
 
   return (

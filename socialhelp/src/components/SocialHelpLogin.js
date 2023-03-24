@@ -12,11 +12,24 @@ import {
 import { Box } from "@mui/system";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { isRequiredField, LOCAL_STORAGE_TOKEN_KEY } from "../utils/settings";
-import { serverPostRequestNoAuth } from "../utils/httpUtils";
+import {
+  isRequiredField,
+  LOCAL_STORAGE_TOKEN_KEY,
+  WINDOW_RESOLUTIONS,
+} from "../utils/settings";
+import {
+  fetchAllResolutionByUser,
+  fetchLogin,
+  serverPostRequestNoAuth,
+} from "../utils/httpUtils";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../store/userSlice";
-import { closeSocialHelpAlert, openSocialHelpAlert } from "../store/appSlice";
+import {
+  closeSocialHelpAlert,
+  openSocialHelpAlert,
+  setIsLoading,
+  setNotifications,
+} from "../store/appSlice";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required(isRequiredField),
@@ -70,16 +83,25 @@ const SocialHelpLogin = () => {
     validationSchema
       .validate(values, { abortEarly: false })
       .then(() => {
-        serverPostRequestNoAuth(`login`, {
+        fetchLogin({
           username: values.username,
           password: values.password,
         })
-          .then((response) => response.json())
           .then((data) => {
             if (data?.user && data?.token) {
+              dispatch(setIsLoading(true));
               localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, data.token);
               dispatch(setUserData(data));
               dispatch(closeSocialHelpAlert());
+              fetchAllResolutionByUser(data.token).then((data) => {
+                if (data.resolutions) {
+                  window[WINDOW_RESOLUTIONS] = data.resolutions;
+                  dispatch(setNotifications(window[WINDOW_RESOLUTIONS].length));
+                  dispatch(setIsLoading(false));
+                  return;
+                }
+                throw new Error();
+              });
               return navigate("/feed");
             }
             throw new Error();

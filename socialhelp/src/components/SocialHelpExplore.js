@@ -1,9 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
-import { TextField, Grid, Box, IconButton, Avatar } from "@mui/material";
-import { profiles } from "../utils/dataUtils";
+import { useEffect, useState } from "react";
+import { TextField, Grid, Box } from "@mui/material";
 import MaterialReactTable from "material-react-table";
 import SocialHelpFollowButton from "./Buttons/SocialHelpFollowButton";
-import EditIcon from "@mui/icons-material/Edit";
 import { useDispatch, useSelector } from "react-redux";
 import {
   openSocialHelpAlert,
@@ -12,6 +10,7 @@ import {
 } from "../store/appSlice";
 import { serverGetRequest } from "../utils/httpUtils";
 import SocialHelpAvatar from "./SocialHelpAvatar";
+import { WINDOW_PROFILES } from "../utils/settings";
 
 const SocialHelpExplore = () => {
   const [searchText, setSearchText] = useState("");
@@ -49,22 +48,10 @@ const SocialHelpExplore = () => {
             gap: "1rem",
           }}
         >
-          <span>{`${row.original.name} ${row.original.surname}`}</span>
-        </Box>
-      ),
-    },
-    {
-      accessorKey: "username",
-      headerName: "Username",
-      Cell: ({ renderedCellValue, row }) => (
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: "1rem",
-          }}
-        >
-          <span>@{renderedCellValue}</span>
+          <span>
+            <b>{`${row.original.name} ${row.original.surname}`}</b>
+            <br />@{row.original.username}
+          </span>
         </Box>
       ),
     },
@@ -81,9 +68,7 @@ const SocialHelpExplore = () => {
   useEffect(() => {
     if (searchText) {
       setData(
-        window.WINDOW_PROFILES.filter(
-          (profile) => profile.username !== usernameInSession
-        ).filter((profile) =>
+        window[WINDOW_PROFILES].filter((profile) =>
           [
             profile.name,
             profile.surname,
@@ -98,15 +83,13 @@ const SocialHelpExplore = () => {
   }, [searchText]);
 
   useEffect(() => {
-    if (!window.WINDOW_PROFILES && token) {
+    if (!window[WINDOW_PROFILES] && token) {
       dispatch(setIsLoading(true));
       serverGetRequest("user/getAllUsers", token)
         .then((res) => res.json())
         .then((data) => {
           if (data && data.length > 0) {
-            window.WINDOW_PROFILES = data.filter(
-              (profile) => profile.username !== usernameInSession
-            );
+            window[WINDOW_PROFILES] = data;
             dispatch(setAllProfilesFetched(true));
             dispatch(setIsLoading(false));
             return;
@@ -150,7 +133,7 @@ const SocialHelpExplore = () => {
           },
         }}
         columns={columns}
-        data={searchText ? data : window.WINDOW_PROFILES || []}
+        data={searchText ? data : window[WINDOW_PROFILES] || []}
         enableColumnFilterModes={false}
         enableColumnOrdering={false}
         enableFilters={false}

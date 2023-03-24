@@ -2,10 +2,11 @@ import React from "react";
 import { IconButton, Tooltip } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
-import { LOCAL_STORAGE_TOKEN_KEY, WINDOW_PROFILES } from "../../utils/settings";
+import { LOCAL_STORAGE_TOKEN_KEY, WINDOW_PROFILES, WINDOW_RESOLUTIONS } from "../../utils/settings";
 import { useDispatch, useSelector } from "react-redux";
-import { openSocialHelpAlert, setToken } from "../../store/appSlice";
+import { openSocialHelpAlert } from "../../store/appSlice";
 import { serverPostRequestAuth } from "../../utils/httpUtils";
+import { resetUser } from "../../store/userSlice";
 
 const LogoutButton = () => {
   const navigate = useNavigate();
@@ -15,8 +16,9 @@ const LogoutButton = () => {
     serverPostRequestAuth("logout", {}, token)
       .then(() => {
         localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
-        dispatch(setToken(""));
+        dispatch(resetUser());
         if (window[WINDOW_PROFILES]) window[WINDOW_PROFILES] = undefined;
+        if (window[WINDOW_RESOLUTIONS]) window[WINDOW_RESOLUTIONS] = undefined;
         navigate("/login");
       })
       .catch((err) =>

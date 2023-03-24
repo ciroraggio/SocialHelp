@@ -1,15 +1,18 @@
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import SociaHelpSnackbar from "./components/SociaHelpSnackbar";
 import SocialHelpProgress from "./components/SocialHelpProgress";
 import SocialHelpRoutes from "./SocialHelpRoutes";
 import { serverGetRequest } from "./utils/httpUtils";
-import { TIMER_USERS_FETCH } from "./utils/settings";
+import {
+  TIMER_USERS_FETCH,
+  WINDOW_PROFILES,
+  WINDOW_RESOLUTIONS,
+} from "./utils/settings";
 
 const App = () => {
   const { isLoading } = useSelector((state) => state.app);
   const { token } = useSelector((state) => state.user);
-
   // Utilizzo la funzione useEffect() per creare un intervallo che effettua la richiesta HTTP per il recupero di tutti gli utenti ogni N secondi.
   // Inoltre, abbiamo registrato un evento visibilitychange sulla finestra del browser utilizzando document.addEventListener().
   // Quando la finestra diventa invisibile (ad esempio, quando l'utente passa a un'altra scheda), l'intervallo viene fermato utilizzando stopInterval().
@@ -19,19 +22,23 @@ const App = () => {
   useEffect(() => {
     let intervalId;
     const fetchData = () => {
-      if (token)
+      if (token && intervalId) {
         serverGetRequest("user/getAllUsers", token)
           .then((res) => res.json())
           .then((data) => {
             if (data && data.length > 0) {
-              window.WINDOW_PROFILES = data;
-              return;
+              window[WINDOW_PROFILES] = data;
             }
-            throw new Error();
-          })
-          .catch((err) => {
-            return;
           });
+
+        serverGetRequest("resolution/getAllResolutionsByUser", token)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.resolutions) {
+              window[WINDOW_RESOLUTIONS] = data.resolutions;
+            }
+          });
+      }
     };
     const startInterval = () => {
       intervalId = setInterval(() => {

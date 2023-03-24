@@ -1,25 +1,22 @@
-import { useEffect, useMemo, useState } from "react";
-import { TextField, Grid, Box, IconButton, Avatar } from "@mui/material";
-import { fakeNotifications } from "../utils/dataUtils";
+import { useEffect, useState } from "react";
+import { TextField, Grid, Box } from "@mui/material";
 import MaterialReactTable from "material-react-table";
-import EditIcon from "@mui/icons-material/Edit";
 import { useDispatch, useSelector } from "react-redux";
 import {
   openSocialHelpAlert,
-  setAllProfilesFetched,
   setIsLoading,
+  setNotifications,
 } from "../store/appSlice";
 import { serverGetRequest } from "../utils/httpUtils";
 import SocialHelpAvatar from "./SocialHelpAvatar";
+import ExpandResolutionButton from "./Buttons/ExpandResolutionButton";
+import { WINDOW_RESOLUTIONS } from "../utils/settings";
 
 const SocialHelpNotifications = () => {
   const [searchText, setSearchText] = useState("");
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
-  const { token, username: usernameInSession } = useSelector(
-    (state) => state.user
-  );
-
+  const { token } = useSelector((state) => state.user);
   const columns = [
     {
       accessorKey: "avatarUrl",
@@ -48,13 +45,16 @@ const SocialHelpNotifications = () => {
             gap: "1rem",
           }}
         >
-          <span>{`${row.original.user.name} ${row.original.user.surname}`}</span>
+          <span>
+            <b>{`${row.original.user.name} ${row.original.user.surname}`}</b>
+            <br />@{row.original.user.username}
+          </span>
         </Box>
       ),
     },
     {
-      accessorKey: "username",
-      headerName: "Username",
+      accessorKey: "description",
+      headerName: "Description",
       Cell: ({ renderedCellValue, row }) => (
         <Box
           sx={{
@@ -63,13 +63,9 @@ const SocialHelpNotifications = () => {
             gap: "1rem",
           }}
         >
-          <span>@{renderedCellValue}</span>
+          <span>{`${renderedCellValue.substring(0, 30)}...`}</span>
         </Box>
       ),
-    },
-    {
-      accessorKey: "description",
-      headerName: "Description",
     },
   ];
 
@@ -80,42 +76,49 @@ const SocialHelpNotifications = () => {
   useEffect(() => {
     if (searchText) {
       setData(
-        fakeNotifications.filter((a) => a.description.includes(searchText))
+        window[WINDOW_RESOLUTIONS].filter((resolution) =>
+          [
+            resolution.description,
+            resolution.user.name,
+            resolution.user.surname,
+            resolution.user.username,
+          ].some((field) =>
+            field.toLowerCase().includes(searchText.toLowerCase())
+          )
+        )
       );
     }
   }, [searchText]);
 
-  // useEffect(() => {
-  //   if (!window.WINDOW_PROFILES && token) {
-  //     dispatch(setIsLoading(true));
-  //     serverGetRequest("user/getAllUsers", token)
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         if (data && data.length > 0) {
-  //           window.WINDOW_PROFILES = data.filter(
-  //             (profile) => profile.username !== usernameInSession
-  //           );
-  //           dispatch(setAllProfilesFetched(true));
-  //           dispatch(setIsLoading(false));
-  //           return;
-  //         }
-  //         throw new Error();
-  //       })
-  //       .catch((err) => {
-  //         dispatch(setIsLoading(false));
-  //         dispatch(
-  //           openSocialHelpAlert({
-  //             type: "error",
-  //             message:
-  //               "Errore nel caricamento dei profili, riprovare più tardi!",
-  //             vertical: "bottom",
-  //             horizontal: "left",
-  //           })
-  //         );
-  //         return;
-  //       });
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!window[WINDOW_RESOLUTIONS] && token) {
+      dispatch(setIsLoading(true));
+      serverGetRequest("resolution/getAllResolutionsByUser", token)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.resolutions) {
+            window[WINDOW_RESOLUTIONS] = data.resolutions;
+            dispatch(setNotifications(window[WINDOW_RESOLUTIONS].filter(res => !res.resolved).length));
+            dispatch(setIsLoading(false));
+            return;
+          }
+          throw new Error();
+        })
+        .catch((err) => {
+          dispatch(setIsLoading(false));
+          dispatch(
+            openSocialHelpAlert({
+              type: "error",
+              message:
+                "Errore nel caricamento delle notifiche, riprovare più tardi!",
+              vertical: "bottom",
+              horizontal: "left",
+            })
+          );
+          return;
+        });
+    }
+  }, []);
 
   return (
     <Grid container spacing={2} justifyContent="center">
@@ -138,7 +141,7 @@ const SocialHelpNotifications = () => {
           },
         }}
         columns={columns}
-        data={searchText ? data : fakeNotifications || []}
+        data={searchText ? data : window[WINDOW_RESOLUTIONS] || []}
         enableColumnFilterModes={false}
         enableColumnOrdering={false}
         enableFilters={false}
@@ -155,7 +158,7 @@ const SocialHelpNotifications = () => {
         positionActionsColumn="last"
         renderRowActions={({ row }) => (
           <Box>
-            {/* <SocialHelpFollowButton profile={row.original.user} /> */}
+            <ExpandResolutionButton />
           </Box>
         )}
       />

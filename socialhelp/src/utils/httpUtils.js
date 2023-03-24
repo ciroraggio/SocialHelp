@@ -42,3 +42,13 @@ export const serverPutRequest = (route, body, token) =>
     },
     body: JSON.stringify(body),
   });
+
+export const fetchAllResolutionByUser = (token) =>
+  serverGetRequest("resolution/getAllResolutionsByUser", token)
+    .then((res) => res.json())
+    .then((data) => data);
+
+export const fetchLogin = (body) =>
+  serverPostRequestNoAuth(`login`, body)
+    .then((response) => response.json())
+    .then((data) => data);
