@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { fakeData } from "../utils/dataUtils";
 import SocialHelpPost from "./SocialHelpPost";
 import AddPostButton from "./Buttons/AddPostButton";
 import SocialHelpProgress from "./SocialHelpProgress";
 import SocialHelpAddPostDialog from "./SocialHelpAddPostDialog";
 import SocialHelpShareDialog from "./SocialHelpShareDialog";
-import SocialHelpResolveDialog from "./SocialHelpResolveDialog";
+import SocialHelpAddResolveDialog from "./SocialHelpAddResolveDialog";
 import { serverGetRequest } from "../utils/httpUtils";
 import { useSelector } from "react-redux";
 
@@ -63,7 +62,7 @@ const SocialHelpFeed = () => {
       <AddPostButton />
       <SocialHelpAddPostDialog />
       <SocialHelpShareDialog />
-      <SocialHelpResolveDialog />
+      <SocialHelpAddResolveDialog />
     </>
   );
 };

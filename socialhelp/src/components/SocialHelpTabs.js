@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tabs, Tab, Box, Badge } from "@mui/material";
 import SocialHelpFeed from "./SocialHelpFeed";
 import SocialHelpProfile from "./SocialHelpProfile";
@@ -17,6 +17,9 @@ import SocialHelpNotifications from "./SocialHelpNotifications";
 const SocialHelpTabs = (props) => {
   const [tabValue, setTabValue] = useState(props.tabValue || tabValues.feed);
   const { notifications } = useSelector((state) => state.app);
+  const [notificationsCounter, setNotificationsCounter] = useState(
+    notifications || 0
+  );
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleTabChange = (event, newValue) => {
@@ -41,6 +44,10 @@ const SocialHelpTabs = (props) => {
     setTabValue(newValue);
   };
 
+  useEffect(() => {
+    setNotificationsCounter(notifications);
+  }, [notifications]);
+
   return (
     <>
       <SocialHelpToolbar />
@@ -61,7 +68,7 @@ const SocialHelpTabs = (props) => {
           icon={
             notifications > 0 ? (
               <Badge
-                badgeContent={notifications}
+                badgeContent={notificationsCounter}
                 color="error"
                 position="start"
               >

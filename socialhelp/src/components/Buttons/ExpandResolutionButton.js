@@ -6,18 +6,27 @@ import { serverPostRequestAuth } from "../../utils/httpUtils";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import { openSocialHelpAlert } from "../../store/appSlice";
 import { setFollowing } from "../../store/userSlice";
-import OpenInFullIcon from '@mui/icons-material/OpenInFull'; 
+import OpenInFullIcon from "@mui/icons-material/OpenInFull";
+import SocialHelpResolveConfirmationDialog from "../SocialHelpResolveConfirmationDialog";
 
-const ExpandResolutionButton = ({ post }) => {
-  const { token, following } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+const ExpandResolutionButton = ({ resolutionInfo }) => {
+  const [openResolveConfirmation, setOpenResolveConfirmation] = useState(false);
+
+  const handleOpenResolveConfirmation = () => setOpenResolveConfirmation(true);
 
   return (
-    <Tooltip title="Espandi" arrow>
-      <IconButton>
-        <OpenInFullIcon />
-      </IconButton>
-    </Tooltip>
+    <>
+      <Tooltip title="Espandi" arrow>
+        <IconButton onClick={handleOpenResolveConfirmation}>
+          <OpenInFullIcon />
+        </IconButton>
+      </Tooltip>
+      <SocialHelpResolveConfirmationDialog
+        open={openResolveConfirmation}
+        setOpen={setOpenResolveConfirmation}
+        resolutionInfo={resolutionInfo}
+      />
+    </>
   );
 };
 

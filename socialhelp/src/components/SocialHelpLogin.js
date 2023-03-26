@@ -28,8 +28,8 @@ import {
   closeSocialHelpAlert,
   openSocialHelpAlert,
   setIsLoading,
-  setNotifications,
 } from "../store/appSlice";
+import { updateNotifications } from "../utils/storeUtils";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required(isRequiredField),
@@ -96,11 +96,10 @@ const SocialHelpLogin = () => {
               fetchAllResolutionByUser(data.token).then((data) => {
                 if (data.resolutions) {
                   window[WINDOW_RESOLUTIONS] = data.resolutions;
-                  dispatch(setNotifications(window[WINDOW_RESOLUTIONS].length));
+                  updateNotifications(dispatch);
                   dispatch(setIsLoading(false));
                   return;
                 }
-                throw new Error();
               });
               return navigate("/feed");
             }

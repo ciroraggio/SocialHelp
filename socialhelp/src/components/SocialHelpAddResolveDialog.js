@@ -28,7 +28,7 @@ const styles = {
   },
 };
 
-const SocialHelpResolveDialog = () => {
+const SocialHelpAddResolveDialog = () => {
   const { resolvePostDialog } = useSelector((state) => state.post);
   const { token } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -54,7 +54,6 @@ const SocialHelpResolveDialog = () => {
         dispatch(setIsLoading(true));
         const body = {
           description: values.description,
-          user: resolvePostDialog.data.user._id,
           post: resolvePostDialog.data.post._id,
         };
         serverPostRequestAuth("resolution/createResolution", body, token)
@@ -64,6 +63,15 @@ const SocialHelpResolveDialog = () => {
             setErrors({});
             setServerError("");
             dispatch(setIsLoading(false));
+            dispatch(
+              openSocialHelpAlert({
+                type: "success",
+                message:
+                  "Proposta di risoluzione inviata, controlla la sezione notifiche per rimanere aggiornato!",
+                vertical: "top",
+                horizontal: "right",
+              })
+            );
             return;
           })
           .catch((err) => {
@@ -138,4 +146,4 @@ const SocialHelpResolveDialog = () => {
   );
 };
 
-export default SocialHelpResolveDialog;
+export default SocialHelpAddResolveDialog;

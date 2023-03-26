@@ -1,73 +1,21 @@
 import { useEffect, useState } from "react";
-import { TextField, Grid, Box } from "@mui/material";
-import MaterialReactTable from "material-react-table";
+import { TextField, Grid, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  openSocialHelpAlert,
-  setIsLoading,
-  setNotifications,
-} from "../store/appSlice";
+import { openSocialHelpAlert, setIsLoading } from "../store/appSlice";
 import { serverGetRequest } from "../utils/httpUtils";
-import SocialHelpAvatar from "./SocialHelpAvatar";
-import ExpandResolutionButton from "./Buttons/ExpandResolutionButton";
 import { WINDOW_RESOLUTIONS } from "../utils/settings";
+import {
+  updateNotifications,
+  getPendingResolutions,
+  getAcceptedResolutions,
+} from "../utils/storeUtils";
+import SocialHelpNotificationsTable from "./SocialHelpNotificationsTable";
 
 const SocialHelpNotifications = () => {
   const [searchText, setSearchText] = useState("");
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.user);
-  const columns = [
-    {
-      accessorKey: "avatarUrl",
-      headerName: "avatar",
-      Cell: ({ renderedCellValue, row }) => (
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "1rem",
-          }}
-        >
-          <SocialHelpAvatar user={row.original.user} />
-        </Box>
-      ),
-    },
-    {
-      accessorKey: "name",
-      headerName: "Name",
-      Cell: ({ renderedCellValue, row }) => (
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: "1rem",
-          }}
-        >
-          <span>
-            <b>{`${row.original.user.name} ${row.original.user.surname}`}</b>
-            <br />@{row.original.user.username}
-          </span>
-        </Box>
-      ),
-    },
-    {
-      accessorKey: "description",
-      headerName: "Description",
-      Cell: ({ renderedCellValue, row }) => (
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: "1rem",
-          }}
-        >
-          <span>{`${renderedCellValue.substring(0, 30)}...`}</span>
-        </Box>
-      ),
-    },
-  ];
 
   const handleSearchTextChange = (event) => {
     setSearchText(event.target.value);
@@ -91,6 +39,12 @@ const SocialHelpNotifications = () => {
   }, [searchText]);
 
   useEffect(() => {
+    if (window[WINDOW_RESOLUTIONS] && window[WINDOW_RESOLUTIONS].length > 0) {
+      updateNotifications(dispatch);
+    }
+  }, [window[WINDOW_RESOLUTIONS]]);
+
+  useEffect(() => {
     if (!window[WINDOW_RESOLUTIONS] && token) {
       dispatch(setIsLoading(true));
       serverGetRequest("resolution/getAllResolutionsByUser", token)
@@ -98,7 +52,7 @@ const SocialHelpNotifications = () => {
         .then((data) => {
           if (data.resolutions) {
             window[WINDOW_RESOLUTIONS] = data.resolutions;
-            dispatch(setNotifications(window[WINDOW_RESOLUTIONS].filter(res => !res.resolved).length));
+            updateNotifications(dispatch);
             dispatch(setIsLoading(false));
             return;
           }
@@ -131,36 +85,29 @@ const SocialHelpNotifications = () => {
           onChange={handleSearchTextChange}
         />
       </Grid>
-
-      <MaterialReactTable
-        muiTablePaperProps={{
-          elevation: 0,
-          sx: {
-            borderRadius: "0",
-            border: "1px #e0e0e0",
-          },
-        }}
-        columns={columns}
-        data={searchText ? data : window[WINDOW_RESOLUTIONS] || []}
-        enableColumnFilterModes={false}
-        enableColumnOrdering={false}
-        enableFilters={false}
-        enableDensityToggle={false}
-        enableFullScreenToggle={false}
-        enableGrouping={false}
-        enableHiding={false}
-        showColumnFilters={false}
-        enablePinning={false}
-        enableRowSelection={false}
-        enableTableHead={false}
-        enablePagination={false}
-        enableRowActions
-        positionActionsColumn="last"
-        renderRowActions={({ row }) => (
-          <Box>
-            <ExpandResolutionButton />
-          </Box>
-        )}
+      <Grid item xs={12}>
+        <Typography variant="subtitle2" color="primary">
+          In attesa
+        </Typography>
+      </Grid>
+      <SocialHelpNotificationsTable
+        data={
+          searchText
+            ? getPendingResolutions(data)
+            : getPendingResolutions(window[WINDOW_RESOLUTIONS]) || []
+        }
+      />
+      <Grid item xs={12}>
+        <Typography variant="subtitle2" color="primary">
+          Accettate:
+        </Typography>
+      </Grid>
+      <SocialHelpNotificationsTable
+        data={
+          searchText
+            ? getAcceptedResolutions(data)
+            : getAcceptedResolutions(window[WINDOW_RESOLUTIONS]) || []
+        }
       />
     </Grid>
   );
