@@ -66,14 +66,14 @@ const SocialHelpResolveConfirmationDialog = ({
     >
       <DialogContent dividers>
         <Typography variant="subtitle2" color="text" align="left" pb={2}>
-          Per il tuo post:
+          For your post:
         </Typography>
         <ResolutionPostViewer
           authorUser={userInSession}
           description={resolutionInfo.post.description}
         />
         <Typography variant="subtitle2" color="text" align="left" pt={2} pb={2}>
-          L'utente propone la seguente risoluzione:
+          The user proposes the following resolution:
         </Typography>
         <ResolutionPostViewer
           authorUser={resolutionInfo.user}
@@ -88,7 +88,7 @@ const SocialHelpResolveConfirmationDialog = ({
                 <CancelIcon sx={{ color: "red" }} />
               </Grid>
               <Grid item xs={11}>
-                <Typography>Hai rifiutato la proposta!</Typography>
+                <Typography>You refused the proposal!</Typography>
               </Grid>
             </Grid>
           )}
@@ -98,7 +98,7 @@ const SocialHelpResolveConfirmationDialog = ({
                 <CheckCircleIcon sx={{ color: "green" }} />
               </Grid>
               <Grid item xs={11}>
-                <Typography>Hai accettato la proposta!</Typography>{" "}
+                <Typography>You accepted the proposal!</Typography>
               </Grid>
             </Grid>
           )}

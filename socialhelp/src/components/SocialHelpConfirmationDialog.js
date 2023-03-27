@@ -16,13 +16,13 @@ const SocialHelpConfirmationDialog = ({ title, message, confirmationButtonText, 
       maxWidth="xs"
       open={open}
     >
-      <DialogTitle>{title}</DialogTitle>
+      {/* <DialogTitle>{title}</DialogTitle> */}
       <DialogContent dividers>
         <DialogContentText>{message}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={handleClose} sx={{ textTransform: "none" }}>
-          Annulla
+          Cancel
         </Button>
         <Button onClick={handleOk} sx={{ textTransform: "none" }}>
           {confirmationButtonText}

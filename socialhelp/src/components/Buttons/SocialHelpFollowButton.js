@@ -79,7 +79,7 @@ const SocialHelpFollowButton = ({ profile }) => {
   };
 
   return (
-    <Tooltip title={isFriend ? "Smetti di seguire" : "Segui"} arrow>
+    <Tooltip title={isFriend ? "Unfollow" : "Follow"} arrow>
       <IconButton onClick={isFriend ? handleRemoveFollow : handleFollow}>
         {isFriend ? (
           <PersonRemoveIcon color="primary" />

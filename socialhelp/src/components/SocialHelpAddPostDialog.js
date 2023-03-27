@@ -163,7 +163,7 @@ const SocialHelpAddPostDialog = () => {
                 <TextField
                   id="description"
                   name="description"
-                  label="Descrizione"
+                  label="Description"
                   multiline
                   rows={7}
                   type="text"
@@ -200,7 +200,7 @@ const SocialHelpAddPostDialog = () => {
             type="submit"
             sx={{ textTransform: "none" }}
           >
-            Pubblica
+            Post
           </Button>
         </DialogActions>
       </BootstrapDialog>

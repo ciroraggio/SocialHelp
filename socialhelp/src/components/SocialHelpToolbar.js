@@ -15,7 +15,7 @@ const SocialHelpToolbar = () => {
       <AppBar position="static">
         <Toolbar sx={{ height: "80px" }}>
           <Tooltip title={user.username} arrow placement="right">
-            <SocialHelpAvatar user={user} />
+            <SocialHelpAvatar user={user} showTooltip />
           </Tooltip>
           <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
             <img

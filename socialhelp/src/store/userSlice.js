@@ -11,6 +11,7 @@ export const userSlice = createSlice({
     email: "",
     following: [],
     token: "",
+    biography: ""
   },
 
   reducers: {
@@ -23,12 +24,16 @@ export const userSlice = createSlice({
       state.phone = "";
       state.following = [];
       state.token = "";
+      state.biography = "";
     },
     setName: (state, action) => {
       state.name = action.payload;
     },
     setSurname: (state, action) => {
       state.surname = action.payload;
+    },
+    setBiography: (state, action) => {
+      state.biography = action.payload;
     },
     setLocation: (state, action) => {
       state.location = action.payload;
@@ -57,6 +62,7 @@ export const userSlice = createSlice({
       state.phone = action.payload.user.phone;
       state.following = action.payload.user.following || state.following;
       state.token = action.payload.token || state.token;
+      state.biography = action.payload.user.biography || state.biography;
     },
   },
 });

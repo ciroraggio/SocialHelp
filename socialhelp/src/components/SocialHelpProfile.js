@@ -1,12 +1,19 @@
 import { useState } from "react";
-import { Avatar, Grid, Stack, TextField, Typography } from "@mui/material";
+import {
+  Avatar,
+  Divider,
+  Grid,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import EditInfoButton from "./Buttons/EditInfoButton";
 import UpdateActionsButton from "./Buttons/UpdateActionsButton";
-import { red } from "@mui/material/colors";
 import { useSelector, useDispatch } from "react-redux";
 import { openSocialHelpAlert, setIsLoading } from "../store/appSlice";
 import { serverPutRequest } from "../utils/httpUtils";
 import { setUserData } from "../store/userSlice";
+import SocialHelpDivider from "./SocialHelpDivider";
 
 const SocialHelpProfile = (props) => {
   const dispatch = useDispatch();
@@ -19,6 +26,7 @@ const SocialHelpProfile = (props) => {
     phone: userStored.phone,
     email: userStored.email,
     location: userStored.location,
+    biography: userStored.biography,
   });
 
   const [oldValues, setOldValues] = useState(values);
@@ -76,7 +84,6 @@ const SocialHelpProfile = (props) => {
         label={label}
         value={value}
         fullWidth
-        style={{ maxWidth: 900 }}
         disabled={!editing}
         onChange={(e) => handleChange(field, e.target.value)}
       />
@@ -85,8 +92,8 @@ const SocialHelpProfile = (props) => {
 
   return (
     <>
-      <Grid container spacing={2} alignItems="center" p={6}>
-        <Grid item pr={3}>
+      <Grid container spacing={2} alignItems="center" pb={10} pl={5} pr={5}>
+        <Grid item pr={14}>
           {values.profileImageUrl ? (
             <Avatar
               sx={{ width: 250, height: 250 }}
@@ -95,7 +102,7 @@ const SocialHelpProfile = (props) => {
             />
           ) : (
             <Avatar
-              sx={{ width: 250, height: 250, bgcolor: '#5bbcdd' }}
+              sx={{ width: 250, height: 250, bgcolor: "#5bbcdd" }}
               aria-label="recipe"
             >
               {`${userStored.name[0]}${userStored.surname[0]}`}
@@ -103,6 +110,26 @@ const SocialHelpProfile = (props) => {
           )}
         </Grid>
         <Grid item xs>
+          <Typography variant="h5" component="div">
+            <TextField
+              id="biography"
+              label="Biography"
+              value={values.biography}
+              fullWidth
+              disabled={!editing}
+              multiline
+              maxRows={7}
+              minRows={7}
+              onChange={(e) => handleChange("biography", e.target.value)}
+            />
+          </Typography>  
+          {!editing && EditInfoButton(handleEdit)}
+          {editing && UpdateActionsButton(handleSave, handleCancel)}
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} pl={5} pr={5}>
+        <Grid item xs>
+          <SocialHelpDivider text="Your data" />
           <Stack direction="column" spacing={2}>
             <Typography variant="h5" component="div">
               {renderTextField("name", "Name", values.name)}

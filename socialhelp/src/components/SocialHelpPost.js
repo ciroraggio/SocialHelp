@@ -23,9 +23,9 @@ const SocialHelpPost = (props) => {
   useEffect(() => {
     setImages(post.images);
     setDateField(
-      `Pubblicato il ${
+      `Published the ${
         post.createdAt.toString().split("T")[0]
-      } alle ${post.createdAt.toString().split("T")[1].substring(0, 5)}`
+      } at ${post.createdAt.toString().split("T")[1].substring(0, 5)}`
     );
     setIsUserInSession(usernameInSession === user.username);
   }, []);
@@ -80,8 +80,8 @@ const SocialHelpPost = (props) => {
         )}
         <Typography
           variant="caption"
-          color="black"
-          align="left"
+          color="grey"
+          align="right"
           paddingLeft={62}
         >
           {dateField}

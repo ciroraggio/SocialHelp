@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TextField, Grid, Box } from "@mui/material";
+import { TextField, Grid, Box, IconButton, Tooltip } from "@mui/material";
 import MaterialReactTable from "material-react-table";
 import SocialHelpFollowButton from "./Buttons/SocialHelpFollowButton";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,14 +11,25 @@ import {
 import { serverGetRequest } from "../utils/httpUtils";
 import SocialHelpAvatar from "./SocialHelpAvatar";
 import { WINDOW_PROFILES } from "../utils/settings";
+import SocialHelpProfileInfoDialog from "./SocialHelpProfileInfoDialog";
+import ProfileInfoButton from "./Buttons/ProfileInfoButton";
 
 const SocialHelpExplore = () => {
   const [searchText, setSearchText] = useState("");
+  const [infoUser, setInfoUser] = useState({});
   const [data, setData] = useState([]);
+  const [openProfileInfo, setOpenProfileInfo] = useState(false);
   const dispatch = useDispatch();
   const { token, username: usernameInSession } = useSelector(
     (state) => state.user
   );
+
+  const handleOpenInfo = (user) => {
+    setInfoUser(user);
+    setOpenProfileInfo(true);
+  };
+
+  const closeInfoDialog = () => setOpenProfileInfo(false);
 
   const columns = [
     {
@@ -117,7 +128,7 @@ const SocialHelpExplore = () => {
       <Grid item xs={12}>
         <TextField
           fullWidth
-          label="Cerca profili o località"
+          label="Search profiles"
           variant="outlined"
           value={searchText}
           onChange={handleSearchTextChange}
@@ -149,10 +160,19 @@ const SocialHelpExplore = () => {
         enableRowActions
         positionActionsColumn="last"
         renderRowActions={({ row }) => (
-          <Box>
+          <Box display="flex" alignItems="center" justifyContent="flex-end">
             <SocialHelpFollowButton profile={row.original} />
+            <ProfileInfoButton
+              handleOpenInfo={handleOpenInfo}
+              user={row.original}
+            />
           </Box>
         )}
+      />
+      <SocialHelpProfileInfoDialog
+        openDialog={openProfileInfo}
+        closeDialog={closeInfoDialog}
+        user={infoUser}
       />
     </Grid>
   );

@@ -10,6 +10,7 @@ import {
   getAcceptedResolutions,
 } from "../utils/storeUtils";
 import SocialHelpNotificationsTable from "./SocialHelpNotificationsTable";
+import SocialHelpDivider from "./SocialHelpDivider";
 
 const SocialHelpNotifications = () => {
   const [searchText, setSearchText] = useState("");
@@ -79,16 +80,14 @@ const SocialHelpNotifications = () => {
       <Grid item xs={12}>
         <TextField
           fullWidth
-          label="Cerca nelle proposte"
+          label="Search notifications"
           variant="outlined"
           value={searchText}
           onChange={handleSearchTextChange}
         />
       </Grid>
       <Grid item xs={12}>
-        <Typography variant="subtitle2" color="primary">
-          In attesa
-        </Typography>
+        <SocialHelpDivider text="Pending" />
       </Grid>
       <SocialHelpNotificationsTable
         data={
@@ -98,9 +97,7 @@ const SocialHelpNotifications = () => {
         }
       />
       <Grid item xs={12}>
-        <Typography variant="subtitle2" color="primary">
-          Accettate:
-        </Typography>
+        <SocialHelpDivider text="Accepted" />
       </Grid>
       <SocialHelpNotificationsTable
         data={

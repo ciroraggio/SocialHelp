@@ -24,7 +24,7 @@ const DeletePostButton = ({ post }) => {
           dispatch(
             openSocialHelpAlert({
               type: "success",
-              message: `Post eliminato con successo!`,
+              message: `Post deleted successfully!`,
               vertical: "top",
               horizontal: "right",
             })
@@ -35,7 +35,7 @@ const DeletePostButton = ({ post }) => {
           dispatch(
             openSocialHelpAlert({
               type: "error",
-              message: `Impossibile eliminare il post, riprovare più tardi!`,
+              message: `Impossible to delete the post, try again later!`,
               vertical: "top",
               horizontal: "right",
             })
@@ -46,7 +46,7 @@ const DeletePostButton = ({ post }) => {
       dispatch(
         openSocialHelpAlert({
           type: "error",
-          message: `Impossibile eliminare il post, riprovare più tardi!`,
+          message: `Impossible to delete the post, try again later!`,
           vertical: "top",
           horizontal: "right",
         })
@@ -56,7 +56,7 @@ const DeletePostButton = ({ post }) => {
 
   return (
     <>
-      <Tooltip title="Elimina" arrow>
+      <Tooltip title="Delete" arrow>
         <IconButton onClick={() => setOpenConfirmation(true)}>
           <DeleteIcon sx={{ scale: "0.85" }} />
         </IconButton>
@@ -64,9 +64,9 @@ const DeletePostButton = ({ post }) => {
       <SocialHelpConfirmationDialog
         open={openConfirmation}
         setOpen={setOpenConfirmation}
-        title="Elimina post"
-        message="Sei sicuro di voler eliminare il post?"
-        confirmationButtonText="Elimina"
+        title="Delete post"
+        message="Are you sure you want to delete the post?"
+        confirmationButtonText="Delete"
         handleOk={handleDelete}
       />
     </>
