@@ -8,13 +8,12 @@ import SocialHelpAddPostDialog from "./SocialHelpAddPostDialog";
 import SocialHelpShareDialog from "./SocialHelpShareDialog";
 import SocialHelpAddResolveDialog from "./SocialHelpAddResolveDialog";
 import { serverGetRequest } from "../utils/httpUtils";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const SocialHelpFeed = () => {
   const [posts, setPosts] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
-
   const { token } = useSelector((state) => state.user);
 
   const getAllFeedPost = async () => {
@@ -38,8 +37,8 @@ const SocialHelpFeed = () => {
   };
 
   useEffect(() => {
-    getAllFeedPost();
-  }, []);
+    if (token) getAllFeedPost();
+  }, [token]);
 
   return (
     <>

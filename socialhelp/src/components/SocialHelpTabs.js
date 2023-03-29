@@ -7,12 +7,13 @@ import PersonIcon from "@mui/icons-material/Person";
 import { useNavigate } from "react-router-dom";
 import { SearchOutlined } from "@mui/icons-material";
 import SocialHelpExplore from "./SocialHelpExplore";
-import { tabValues } from "../utils/settings";
+import { checkToken, tabValues } from "../utils/settings";
 import SocialHelpToolbar from "./SocialHelpToolbar";
 import { useDispatch, useSelector } from "react-redux";
 import { setAllProfilesFetched } from "../store/appSlice";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SocialHelpNotifications from "./SocialHelpNotifications";
+import useCheckToken from "../hooks/useReloadCheckToken";
 
 const SocialHelpTabs = (props) => {
   const [tabValue, setTabValue] = useState(props.tabValue || tabValues.feed);
@@ -25,19 +26,24 @@ const SocialHelpTabs = (props) => {
   const handleTabChange = (event, newValue) => {
     switch (newValue) {
       case tabValues.feed:
+        checkToken(dispatch);
         navigate("/feed");
         break;
       case tabValues.notifications:
+        checkToken(dispatch);
         navigate("/notifications");
         break;
       case tabValues.profile:
+        checkToken(dispatch);
         navigate(`/profile`);
         break;
       case tabValues.explore:
+        checkToken(dispatch);
         dispatch(setAllProfilesFetched(false));
         navigate("/explore");
         break;
       default:
+        checkToken(dispatch);
         navigate("/feed");
         break;
     }

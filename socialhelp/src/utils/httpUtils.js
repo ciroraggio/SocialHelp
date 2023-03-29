@@ -52,3 +52,8 @@ export const fetchLogin = (body) =>
   serverPostRequestNoAuth(`login`, body)
     .then((response) => response.json())
     .then((data) => data);
+
+export const fetchResolutionsByUser = (token) =>
+  serverGetRequest("resolution/getAllResolutionsByUser", token)
+    .then((res) => res.json())
+    .then((data) => data);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import {
   TextField,
@@ -23,13 +23,15 @@ import {
   serverPostRequestNoAuth,
 } from "../utils/httpUtils";
 import { useDispatch } from "react-redux";
-import { setUserData } from "../store/userSlice";
+import { resetUser, setUserData } from "../store/userSlice";
 import {
   closeSocialHelpAlert,
   openSocialHelpAlert,
+  resetAppState,
   setIsLoading,
 } from "../store/appSlice";
 import { updateNotifications } from "../utils/storeUtils";
+import { resetPostState } from "../store/postSlice";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required(isRequiredField),
@@ -77,6 +79,15 @@ const SocialHelpLogin = () => {
       [event.target.name]: event.target.value,
     });
   };
+
+  useEffect(() => {
+    if (localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY)) {
+      localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
+    }
+    dispatch(resetUser());
+    dispatch(resetAppState());
+    dispatch(resetPostState());
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();

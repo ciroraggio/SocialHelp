@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TextField, Grid, Box, IconButton, Tooltip } from "@mui/material";
+import { TextField, Grid, Box } from "@mui/material";
 import MaterialReactTable from "material-react-table";
 import SocialHelpFollowButton from "./Buttons/SocialHelpFollowButton";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,9 +20,7 @@ const SocialHelpExplore = () => {
   const [data, setData] = useState([]);
   const [openProfileInfo, setOpenProfileInfo] = useState(false);
   const dispatch = useDispatch();
-  const { token, username: usernameInSession } = useSelector(
-    (state) => state.user
-  );
+  const { token } = useSelector((state) => state.user);
 
   const handleOpenInfo = (user) => {
     setInfoUser(user);

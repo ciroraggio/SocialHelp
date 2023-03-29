@@ -9,7 +9,7 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, CardContent, CardHeader, DialogContentText, TextField, Typography } from "@mui/material";
+import { CardContent, CardHeader, TextField, Typography } from "@mui/material";
 import UploadImageButton from "./Buttons/UploadImageButton";
 import * as Yup from "yup";
 import { closeNewPostDialog } from "../store/postSlice";
@@ -17,7 +17,6 @@ import { isRequiredField } from "../utils/settings";
 import { serverPostRequestAuth } from "../utils/httpUtils";
 import { openSocialHelpAlert, setIsLoading } from "../store/appSlice";
 import SocialHelpAvatar from "./SocialHelpAvatar";
-import { Box } from "@mui/system";
 
 export const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {

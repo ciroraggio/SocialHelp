@@ -1,23 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+  newPostDialog: {
+    open: false,
+    data: null,
+  },
+  sharePostDialog: {
+    open: false,
+    data: null,
+  },
+  resolvePostDialog: {
+    open: false,
+    data: null,
+  },
+  postUrl: "",
+};
+
 export const postSlice = createSlice({
   name: "post",
-  initialState: {
-    newPostDialog: {
-      open: false,
-      data: null,
-    },
-    sharePostDialog: {
-      open: false,
-      data: null,
-    },
-    resolvePostDialog: {
-      open: false,
-      data: null,
-    },
-    postUrl: ''
-  },
-
+  initialState,
   reducers: {
     setPostUrl: (state, action) => {
       state.postUrl = action.payload;
@@ -41,6 +42,9 @@ export const postSlice = createSlice({
     closeResolvePostDialog: (state, action) => {
       state.resolvePostDialog.open = false;
     },
+    resetPostState: (state, action) => {
+      state = initialState;
+    },
   },
 });
 
@@ -51,7 +55,8 @@ export const {
   openSharePostDialog,
   closeSharePostDialog,
   openResolvePostDialog,
-  closeResolvePostDialog
+  closeResolvePostDialog,
+  resetPostState,
 } = postSlice.actions;
 
 export const postReducer = postSlice.reducer;

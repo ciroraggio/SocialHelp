@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { TextField, Grid, Typography } from "@mui/material";
+import { TextField, Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { openSocialHelpAlert, setIsLoading } from "../store/appSlice";
-import { serverGetRequest } from "../utils/httpUtils";
+import { fetchResolutionsByUser } from "../utils/httpUtils";
 import { WINDOW_RESOLUTIONS } from "../utils/settings";
 import {
   updateNotifications,
@@ -22,8 +22,14 @@ const SocialHelpNotifications = () => {
     setSearchText(event.target.value);
   };
 
+  useEffect(() => {}, [token]);
+
   useEffect(() => {
-    if (searchText) {
+    if (
+      window[WINDOW_RESOLUTIONS] &&
+      window[WINDOW_RESOLUTIONS].length > 0 &&
+      searchText
+    ) {
       setData(
         window[WINDOW_RESOLUTIONS].filter((resolution) =>
           [
@@ -48,8 +54,7 @@ const SocialHelpNotifications = () => {
   useEffect(() => {
     if (!window[WINDOW_RESOLUTIONS] && token) {
       dispatch(setIsLoading(true));
-      serverGetRequest("resolution/getAllResolutionsByUser", token)
-        .then((res) => res.json())
+      fetchResolutionsByUser(token)
         .then((data) => {
           if (data.resolutions) {
             window[WINDOW_RESOLUTIONS] = data.resolutions;
@@ -73,7 +78,7 @@ const SocialHelpNotifications = () => {
           return;
         });
     }
-  }, []);
+  }, [dispatch]);
 
   return (
     <Grid container spacing={2} justifyContent="center">
@@ -91,9 +96,11 @@ const SocialHelpNotifications = () => {
       </Grid>
       <SocialHelpNotificationsTable
         data={
-          searchText
+          searchText && data
             ? getPendingResolutions(data)
-            : getPendingResolutions(window[WINDOW_RESOLUTIONS]) || []
+            : window[WINDOW_RESOLUTIONS]
+            ? getPendingResolutions(window[WINDOW_RESOLUTIONS])
+            : []
         }
       />
       <Grid item xs={12}>
@@ -101,9 +108,11 @@ const SocialHelpNotifications = () => {
       </Grid>
       <SocialHelpNotificationsTable
         data={
-          searchText
+          searchText && data
             ? getAcceptedResolutions(data)
-            : getAcceptedResolutions(window[WINDOW_RESOLUTIONS]) || []
+            : window[WINDOW_RESOLUTIONS]
+            ? getAcceptedResolutions(window[WINDOW_RESOLUTIONS])
+            : []
         }
       />
     </Grid>

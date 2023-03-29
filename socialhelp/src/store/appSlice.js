@@ -1,25 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+const initialState = {
+  token: "",
+  textSearch: "",
+  isLoading: false,
+  socialHelpAlert: {
+    show: false,
+    message: "",
+    type: "",
+    vertical: "top",
+    horizontal: "right",
+  },
+  allProfilesFetched: false,
+  notifications: 0,
+  mustRelogin: false,
+};
 export const appSlice = createSlice({
   name: "app",
-  initialState: {
-    token: "",
-    textSearch: "",
-    isLoading: false,
-    socialHelpAlert: {
-      show: false,
-      message: "",
-      type: "",
-      vertical: "top",
-      horizontal: "right",
-    },
-    allProfilesFetched: false,
-    notifications: 0,
-  },
-
+  initialState,
   reducers: {
     setToken: (state, action) => {
       state.token = action.payload;
+    },
+    setMustRelogin: (state, action) => {
+      state.mustRelogin = action.payload;
     },
     setNotifications: (state, action) => {
       state.notifications = action.payload;
@@ -36,8 +39,10 @@ export const appSlice = createSlice({
     openSocialHelpAlert: (state, action) => {
       state.socialHelpAlert.type = action.payload.type;
       state.socialHelpAlert.message = action.payload.message;
-      state.socialHelpAlert.vertical = action.payload.vertical || state.vertical;
-      state.socialHelpAlert.horizontal = action.payload.horizontal || state.horizontal;
+      state.socialHelpAlert.vertical =
+        action.payload.vertical || state.vertical;
+      state.socialHelpAlert.horizontal =
+        action.payload.horizontal || state.horizontal;
       state.socialHelpAlert.show = true;
     },
     closeSocialHelpAlert: (state, action) => {
@@ -46,6 +51,9 @@ export const appSlice = createSlice({
       state.socialHelpAlert.message = "";
       state.socialHelpAlert.vertical = "";
       state.socialHelpAlert.horizontal = "";
+    },
+    resetAppState: (state, action) => {
+      state = initialState;
     },
   },
 });
@@ -57,7 +65,9 @@ export const {
   setIsLoading,
   openSocialHelpAlert,
   closeSocialHelpAlert,
-  setAllProfilesFetched
+  setAllProfilesFetched,
+  setMustRelogin,
+  resetAppState
 } = appSlice.actions;
 
 export const appReducer = appSlice.reducer;
