@@ -107,18 +107,18 @@ const SocialHelpAddResolveDialog = () => {
       maxWidth="xs"
     >
       <CustomizedDialog onClose={handleClose}>
-        Risolvi il problema
+        Solve the problem
       </CustomizedDialog>
       <DialogContent dividers>
         <DialogContentText paddingBottom={4}>
-          Fai una proposta di risoluzione. L'utente che ha creato il post potrà
-          accettarla e condividere la risoluzione con gli altri utenti.
+          Propose a resolution! The user who created the post will be able to
+          accept it and share the resolution with other users.
         </DialogContentText>
         <form onSubmit={handleSave}>
           <TextField
             id="description"
             name="description"
-            label="Descrizione"
+            label="Description"
             multiline
             rows={7}
             type="text"
@@ -139,7 +139,7 @@ const SocialHelpAddResolveDialog = () => {
           type="submit"
           sx={{ textTransform: "none" }}
         >
-          Invia
+          Submit
         </Button>
       </DialogActions>
     </BootstrapDialog>

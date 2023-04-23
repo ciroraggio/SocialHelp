@@ -11,7 +11,8 @@ export const userSlice = createSlice({
     email: "",
     following: [],
     token: "",
-    biography: ""
+    biography: "",
+    verified: ""
   },
 
   reducers: {
@@ -25,6 +26,7 @@ export const userSlice = createSlice({
       state.following = [];
       state.token = "";
       state.biography = "";
+      state.verified = "";
     },
     setName: (state, action) => {
       state.name = action.payload;
@@ -63,6 +65,7 @@ export const userSlice = createSlice({
       state.following = action.payload.user.following || state.following;
       state.token = action.payload.token || state.token;
       state.biography = action.payload.user.biography || state.biography;
+      state.verified = action.payload.user.verified || state.verified;
     },
   },
 });

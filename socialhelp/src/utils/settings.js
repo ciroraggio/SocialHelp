@@ -1,4 +1,4 @@
-import { openSocialHelpAlert, setMustRelogin } from "../store/appSlice";
+import { setMustRelogin } from "../store/appSlice";
 
 export const tabValues = {
   feed: 0,
@@ -7,7 +7,7 @@ export const tabValues = {
   profile: 3,
 };
 
-export const isRequiredField = "Campo obbligatorio";
+export const isRequiredField = "Required field";
 
 export const LOCAL_STORAGE_TOKEN_KEY = "sh_token";
 export const WINDOW_PROFILES = "__SOCIAL_HELP_PROFILES__";

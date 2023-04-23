@@ -16,6 +16,8 @@ import { serverPostRequestNoAuth } from "../utils/httpUtils";
 import { openSocialHelpAlert } from "../store/appSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import CustomSwitch from "./Buttons/CustomSwitch";
+import InfoButton from "./Buttons/InfoButton";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required(isRequiredField),
@@ -60,6 +62,7 @@ const styles = {
 
 const SocialHelpRegistration = () => {
   const dispatch = useDispatch();
+  const [verified, setVerified] = useState(false);
   const [values, setValues] = useState({
     name: "",
     surname: "",
@@ -69,6 +72,7 @@ const SocialHelpRegistration = () => {
     passwordConfirmation: "",
     location: "",
     phone: "",
+    verified: false,
   });
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState("");
@@ -82,6 +86,7 @@ const SocialHelpRegistration = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     validationSchema
       .validate(values, { abortEarly: false })
       .then(() => {
@@ -136,6 +141,18 @@ const SocialHelpRegistration = () => {
     event.preventDefault();
   };
 
+  const goToLogin = () => {
+    return navigate("/login");
+  };
+
+  const handleVerifiedChange = () => {
+    setVerified(!verified);
+    setValues({
+      ...values,
+      verified: !verified,
+    });
+  };
+
   return (
     <Box sx={styles.root}>
       <Grid container justifyContent="center" alignItems="center" height="100%">
@@ -174,30 +191,6 @@ const SocialHelpRegistration = () => {
                 sx={styles.formInput}
               />
               <TextField
-                id="location"
-                name="location"
-                label="Città"
-                type="text"
-                value={values.location}
-                onChange={handleChange}
-                error={Boolean(errors.location)}
-                helperText={errors.location}
-                fullWidth
-                sx={styles.formInput}
-              />
-              <TextField
-                id="phone"
-                name="phone"
-                label="Cellulare"
-                type="tel"
-                value={values.phone}
-                onChange={handleChange}
-                error={Boolean(errors.phone)}
-                helperText={errors.phone}
-                fullWidth
-                sx={styles.formInput}
-              />
-              <TextField
                 id="email"
                 name="email"
                 label="Email"
@@ -218,6 +211,30 @@ const SocialHelpRegistration = () => {
                 onChange={handleChange}
                 error={Boolean(errors.username)}
                 helperText={errors.username}
+                fullWidth
+                sx={styles.formInput}
+              />
+              <TextField
+                id="location"
+                name="location"
+                label="Città"
+                type="text"
+                value={values.location}
+                onChange={handleChange}
+                error={Boolean(errors.location)}
+                helperText={errors.location}
+                fullWidth
+                sx={styles.formInput}
+              />
+              <TextField
+                id="phone"
+                name="phone"
+                label="Cellulare"
+                type="tel"
+                value={values.phone}
+                onChange={handleChange}
+                error={Boolean(errors.phone)}
+                helperText={errors.phone}
                 fullWidth
                 sx={styles.formInput}
               />
@@ -281,6 +298,21 @@ const SocialHelpRegistration = () => {
                 }}
                 sx={styles.formInput}
               />
+              <Box sx={styles.formInput} display="flex" alignItems="center">
+                <Typography>
+                  Richiedi un account verificato
+                  <InfoButton
+                    style={{ paddingRight: 38 }}
+                    message={
+                      "Un account verificato è pensato per autorità, pubbliche amministrazioni ed enti pubblici. Se richiedi un account verificato il team di SocialHelp dovrà eseguire maggiori controlli."
+                    }
+                  />
+                </Typography>
+                <CustomSwitch
+                  checked={verified}
+                  handleChange={handleVerifiedChange}
+                />
+              </Box>
 
               {serverError && <p>{serverError}</p>}
               <Button
@@ -294,11 +326,11 @@ const SocialHelpRegistration = () => {
               </Button>
             </form>
             <Typography mt={3}>
-              Hai già un account?{" "}
-              <Link href="/login" color="primary">
+              Hai già un account?
+              <Link color="primary" onClick={goToLogin}>
                 Accedi
               </Link>
-            </Typography>{" "}
+            </Typography>
           </Box>
         </Grid>
       </Grid>

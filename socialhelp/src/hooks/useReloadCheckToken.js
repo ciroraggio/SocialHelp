@@ -30,7 +30,7 @@ const useReloadCheckToken = () => {
           }
         });
     }
-    if (window.location.pathname !== "/login") window.location.href = "/login";
+    else if (window.location.pathname !== "/login") window.location.href = "/login";
   }
 };
 

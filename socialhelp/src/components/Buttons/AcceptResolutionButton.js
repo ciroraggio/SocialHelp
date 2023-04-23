@@ -24,7 +24,7 @@ const AcceptResolutionButton = ({ resolutionInfo, handleClose }) => {
           dispatch(
             openSocialHelpAlert({
               type: "success",
-              message: `Hai accettato la proposta di @${resolutionInfo.user.username}.`,
+              message: `You accepted @${resolutionInfo.user.username} proposal.`,
               vertical: "top",
               horizontal: "right",
             })
@@ -42,7 +42,7 @@ const AcceptResolutionButton = ({ resolutionInfo, handleClose }) => {
           dispatch(
             openSocialHelpAlert({
               type: "error",
-              message: `Errore, non è stato possibile accettare la proposta di @${resolutionInfo.user.username}, riprovare più tardi!`,
+              message: `Error, the @${resolutionInfo.user.username} proposal could not be accept at the moment, try again later!`,
               vertical: "top",
               horizontal: "right",
             })
@@ -52,7 +52,7 @@ const AcceptResolutionButton = ({ resolutionInfo, handleClose }) => {
   };
 
   return (
-    <Tooltip title="Accetta">
+    <Tooltip title="Accept">
       <IconButton
         onClick={handleAccept}
         color="success"

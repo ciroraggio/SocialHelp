@@ -4,7 +4,7 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
-import { CardMedia } from "@mui/material";
+import { CardMedia, Stack } from "@mui/material";
 import SharePostButton from "./Buttons/SharePostButton";
 import ResolvePostButton from "./Buttons/ResolvePostButton";
 import SpreadPostButton from "./Buttons/SpreadPostButton";
@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import DeletePostButton from "./Buttons/DeletePostButton";
 import { getPostUrl } from "../utils/shareUtils";
 import SocialHelpAvatar from "./SocialHelpAvatar";
-
+import CustomVerifiedIcon from "./CustomVerifiedIcon";
 const SocialHelpPost = (props) => {
   const { user, post } = props;
   const [images, setImages] = useState(null);
@@ -35,11 +35,14 @@ const SocialHelpPost = (props) => {
       <CardHeader
         avatar={<SocialHelpAvatar user={user} />}
         title={
-          <>
+          <Stack direction="row" alignItems="center" gap={1}>
             <Typography variant="subtitle1" color="text" align="left">
               {`${user.name} ${user.surname}`}
             </Typography>
-          </>
+            {user?.verified && (
+              <CustomVerifiedIcon />
+            )}
+          </Stack>
         }
         action={<SharePostButton postUrl={getPostUrl(post)} />}
         subheader={

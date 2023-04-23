@@ -8,6 +8,7 @@ import {
   IconButton,
   TextField,
   Typography,
+  Tooltip,
 } from "@mui/material";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import TelegramIcon from "@mui/icons-material/Telegram";
@@ -44,21 +45,25 @@ const SocialHelpShareDialog = () => {
         "& .MuiDialog-paper": { width: "80%", maxHeight: 900, maxWidth: 900 },
       }}
     >
-      <CustomizedDialog onClose={handleClose}>
-        Condividi il post
-      </CustomizedDialog>
+      <CustomizedDialog onClose={handleClose}>Share post</CustomizedDialog>
       <DialogContent dividers>
-        <Typography variant="subtitle1">Condividi su:</Typography>
-        <IconButton onClick={() => handleTelegramShare(postUrl)}>
-          <TelegramIcon />
-        </IconButton>
-        <IconButton onClick={() => handleWhatsAppShare(postUrl)}>
-          <WhatsAppIcon />
-        </IconButton>
-        <IconButton onClick={() => handleFacebookShare(postUrl)}>
-          <FacebookIcon />
-        </IconButton>
-        <Typography variant="subtitle1">Copia il link:</Typography>
+        <Typography variant="subtitle1">Share on:</Typography>
+        <Tooltip title="Telegram" arrow>
+          <IconButton onClick={() => handleTelegramShare(postUrl)}>
+            <TelegramIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="WhatsApp" arrow>
+          <IconButton onClick={() => handleWhatsAppShare(postUrl)}>
+            <WhatsAppIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Facebook" arrow>
+          <IconButton onClick={() => handleFacebookShare(postUrl)}>
+            <FacebookIcon />
+          </IconButton>
+        </Tooltip>
+        <Typography variant="subtitle1">Copy link:</Typography>
         <TextField
           value={postUrl}
           fullWidth
@@ -67,7 +72,7 @@ const SocialHelpShareDialog = () => {
             endAdornment: (
               <CopyToClipboard text={postUrl} onCopy={handleCopy}>
                 <Button sx={{ textTransform: "none" }} disabled={copied}>
-                  {copied ? "Copiato!" : "Copia"}
+                  {copied ? "Copied!" : "Copy"}
                 </Button>
               </CopyToClipboard>
             ),
@@ -76,7 +81,7 @@ const SocialHelpShareDialog = () => {
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} sx={{ textTransform: "none" }}>
-          Chiudi
+          Close
         </Button>
       </DialogActions>
     </BootstrapDialog>

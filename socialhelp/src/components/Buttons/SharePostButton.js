@@ -12,8 +12,8 @@ const SharePostButton = ({ postUrl }) => {
   };
 
   return (
-    <Tooltip title="Condividi" arrow>
-      <IconButton aria-label="add to favorites" onClick={onClick}>
+    <Tooltip title="Share" arrow>
+      <IconButton onClick={onClick}>
         <ShareIcon />
       </IconButton>
     </Tooltip>

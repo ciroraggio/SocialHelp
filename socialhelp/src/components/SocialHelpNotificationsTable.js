@@ -1,8 +1,9 @@
 import * as React from "react";
-import { Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import SocialHelpAvatar from "./SocialHelpAvatar";
 import MaterialReactTable from "material-react-table";
 import ExpandResolutionButton from "./Buttons/ExpandResolutionButton";
+import CustomVerifiedIcon from "./CustomVerifiedIcon";
 
 const SocialHelpNotificationsTable = ({ data }) => {
   const columns = [
@@ -34,9 +35,12 @@ const SocialHelpNotificationsTable = ({ data }) => {
           }}
         >
           <span>
-            <b>{`${row.original.user.name} ${row.original.user.surname}`}</b>
-            <br />@{row.original.user.username}
-          </span>
+            <Stack direction="row" alignItems="center" gap={1}>
+              <b>{`${row.original.user.name} ${row.original.user.surname}`}</b>
+              {row.original.user?.verified && <CustomVerifiedIcon />}
+              </Stack>
+              @{row.original.user.username}
+            </span>
         </Box>
       ),
     },

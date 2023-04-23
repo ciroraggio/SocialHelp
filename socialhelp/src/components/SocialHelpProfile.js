@@ -57,7 +57,7 @@ const SocialHelpProfile = (props) => {
             openSocialHelpAlert({
               type: "error",
               message:
-                "Errore nella modifica dei dati personali, riprovare più tardi.",
+                "Error while updating personal data, try again later.",
               vertical: "bottom",
               horizontal: "left",
             })

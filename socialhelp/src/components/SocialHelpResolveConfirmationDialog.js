@@ -9,6 +9,7 @@ import {
   DialogContentText,
   Grid,
   IconButton,
+  Stack,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -20,17 +21,19 @@ import RejectResolutionButton from "./Buttons/RejectResolutionButton";
 import { resolutionStatus } from "../utils/settings";
 import AcceptResolutionButton from "./Buttons/AcceptResolutionButton";
 import CancelIcon from "@mui/icons-material/Cancel";
+import CustomVerifiedIcon from "./CustomVerifiedIcon";
 const ResolutionPostViewer = ({ authorUser, description }) => {
   return (
     <Card>
       <CardHeader
         avatar={<SocialHelpAvatar user={authorUser} />}
         title={
-          <>
+          <Stack direction="row" alignItems="center" gap={1}>
             <Typography variant="subtitle1" color="text" align="left">
               {`${authorUser.name} ${authorUser.surname}`}
             </Typography>
-          </>
+            {authorUser?.verified && <CustomVerifiedIcon />}
+          </Stack>
         }
         subheader={
           <Typography variant="subtitle2" color="text.secondary" align="left">
@@ -81,7 +84,7 @@ const SocialHelpResolveConfirmationDialog = ({
         />
         <Typography variant="subtitle2" color="text" align="left" pt={2} pb={2}>
           {resolutionInfo.status === resolutionStatus.PENDING &&
-            "Puoi scegliere se accettare o rifiutare la proposta. Ricorda che la tua scelta verrà pubblicata."}
+            "You can choose whether to accept or decline the offer. Remember that your choice will be published."}
           {resolutionInfo.status === resolutionStatus.REJECTED && (
             <Grid container>
               <Grid item pr={1}>
@@ -117,7 +120,7 @@ const SocialHelpResolveConfirmationDialog = ({
             />
           </>
         )}
-        <Tooltip title="Chiudi la proposta">
+        <Tooltip title="Close">
           <IconButton
             onClick={handleClose}
             color="primary"

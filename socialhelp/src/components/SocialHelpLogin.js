@@ -20,7 +20,6 @@ import {
 import {
   fetchAllResolutionByUser,
   fetchLogin,
-  serverPostRequestNoAuth,
 } from "../utils/httpUtils";
 import { useDispatch } from "react-redux";
 import { resetUser, setUserData } from "../store/userSlice";
@@ -146,6 +145,10 @@ const SocialHelpLogin = () => {
     event.preventDefault();
   };
 
+  const navigateToRegistration = () => {
+    return navigate('/signup');
+  }
+
   return (
     <Box sx={styles.root}>
       <Grid container justifyContent="center" alignItems="center" height="100%">
@@ -211,11 +214,11 @@ const SocialHelpLogin = () => {
               </Button>
             </form>
             <Typography mt={3}>
-              Non hai un account?{" "}
-              <Link href="/signup" color="primary">
+              Non hai un account?{"  "}
+              <Link color="primary" onClick={navigateToRegistration}>
                 Registrati
               </Link>
-            </Typography>{" "}
+            </Typography>
           </Box>
         </Grid>
       </Grid>

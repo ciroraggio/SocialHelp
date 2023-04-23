@@ -24,7 +24,7 @@ const RejectResolutionButton = ({ resolutionInfo, handleClose }) => {
           dispatch(
             openSocialHelpAlert({
               type: "success",
-              message: `Hai rifiutato la proposta di @${resolutionInfo.user.username}`,
+              message: `You declined @${resolutionInfo.user.username} proposal.`,
               vertical: "top",
               horizontal: "right",
             })
@@ -42,7 +42,7 @@ const RejectResolutionButton = ({ resolutionInfo, handleClose }) => {
           dispatch(
             openSocialHelpAlert({
               type: "error",
-              message: `Errore, non è stato possibile rifiutare la proposta di @${resolutionInfo.user.username}, riprovare più tardi!`,
+              message: `Error, the @${resolutionInfo.user.username} proposal could not be reject at the moment, try again later!`,
               vertical: "top",
               horizontal: "right",
             })
@@ -52,7 +52,7 @@ const RejectResolutionButton = ({ resolutionInfo, handleClose }) => {
   };
 
   return (
-    <Tooltip title="Rifiuta">
+    <Tooltip title="Reject">
       <IconButton
         onClick={handleReject}
         color="error"

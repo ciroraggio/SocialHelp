@@ -7,9 +7,11 @@ import {
   Typography,
   DialogContentText,
   DialogActions,
+  Stack,
 } from "@mui/material";
 import SocialHelpAvatar from "./SocialHelpAvatar";
 import CloseIcon from "@mui/icons-material/Close";
+import CustomVerifiedIcon from "./CustomVerifiedIcon";
 
 const SocialHelpProfileInfoDialog = ({ user, openDialog, closeDialog }) => {
   return (
@@ -32,9 +34,13 @@ const SocialHelpProfileInfoDialog = ({ user, openDialog, closeDialog }) => {
             pb={2}
           >
             <SocialHelpAvatar user={user} />
+            
             <span>
+            <Stack direction="row" alignItems="center" gap={1}>
               <b>{`${user.name} ${user.surname}`}</b>
-              <br />@{user.username}
+              {user?.verified && <CustomVerifiedIcon />}
+              </Stack>
+              @{user.username}
             </span>
           </Box>
           <Grid container spacing={2}>

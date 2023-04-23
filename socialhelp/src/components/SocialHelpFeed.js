@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import InfiniteScroll from "react-infinite-scroll-component";
 import SocialHelpPost from "./SocialHelpPost";
 import AddPostButton from "./Buttons/AddPostButton";
@@ -9,6 +9,7 @@ import SocialHelpShareDialog from "./SocialHelpShareDialog";
 import SocialHelpAddResolveDialog from "./SocialHelpAddResolveDialog";
 import { serverGetRequest } from "../utils/httpUtils";
 import { useDispatch, useSelector } from "react-redux";
+import { getUniqueObjects } from "../utils/arrayUtils";
 
 const SocialHelpFeed = () => {
   const [posts, setPosts] = useState([]);
@@ -40,17 +41,22 @@ const SocialHelpFeed = () => {
     if (token) getAllFeedPost();
   }, [token]);
 
+
+
   return (
     <>
       <InfiniteScroll
         dataLength={posts.length}
-        // next={fetchData}
         hasMore={hasMore}
         loader={<SocialHelpProgress showLogo />}
-        endMessage={<p>Fine dei contenuti</p>}
+        endMessage={
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Typography variant="subtitle2" pt={2}>There are no more posts to show</Typography>
+          </div>
+        }
       >
         <Grid container spacing={2} justify="center" align="center">
-          {posts.map((postInfo) => (
+          {getUniqueObjects(posts).map((postInfo) => (
             <Grid item xs={12} key={postInfo.post._id}>
               <SocialHelpPost post={postInfo.post} user={postInfo.user} />
             </Grid>

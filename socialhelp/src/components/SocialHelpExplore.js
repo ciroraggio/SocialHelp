@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TextField, Grid, Box } from "@mui/material";
+import { TextField, Grid, Box, Stack } from "@mui/material";
 import MaterialReactTable from "material-react-table";
 import SocialHelpFollowButton from "./Buttons/SocialHelpFollowButton";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import SocialHelpAvatar from "./SocialHelpAvatar";
 import { WINDOW_PROFILES } from "../utils/settings";
 import SocialHelpProfileInfoDialog from "./SocialHelpProfileInfoDialog";
 import ProfileInfoButton from "./Buttons/ProfileInfoButton";
+import CustomVerifiedIcon from "./CustomVerifiedIcon";
 
 const SocialHelpExplore = () => {
   const [searchText, setSearchText] = useState("");
@@ -57,10 +58,14 @@ const SocialHelpExplore = () => {
             gap: "1rem",
           }}
         >
-          <span>
-            <b>{`${row.original.name} ${row.original.surname}`}</b>
-            <br />@{row.original.username}
-          </span>
+           <span>
+            <Stack direction="row" alignItems="center" gap={1}>
+              <b>{`${row.original.name} ${row.original.surname}`}</b>
+              {row.original?.verified && <CustomVerifiedIcon />}
+              </Stack>
+              @{row.original.username}
+            </span>
+ 
         </Box>
       ),
     },

@@ -3,7 +3,7 @@ import EditIcon from "@mui/icons-material/Edit";
 
 const EditInfoButton = (handleEdit) => {
   return (
-    <Tooltip title="Modifica informazioni" arrow>
+    <Tooltip title="Edit data" arrow>
       <Fab
         onClick={handleEdit}
         color="primary"

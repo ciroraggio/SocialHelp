@@ -1,14 +1,8 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import SocialHelpLogin from "./components/SocialHelpLogin";
-import SocialHelpProgress from "./components/SocialHelpProgress";
 import SocialHelpRegistration from "./components/SocialHelpRegistration";
 import SocialHelpTabs from "./components/SocialHelpTabs";
-import useReloadCheckToken from "./hooks/useReloadCheckToken";
-import { setUserData } from "./store/userSlice";
-import { serverGetRequest } from "./utils/httpUtils";
-import { LOCAL_STORAGE_TOKEN_KEY, tabValues } from "./utils/settings";
+import { tabValues } from "./utils/settings";
 
 const SocialHelpRoutes = () => {
    return (

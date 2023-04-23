@@ -5,7 +5,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 const UpdateActionsButton = (handleSave, handleCancel) => {
   return (
     <>
-      <Tooltip title="Salva" placement="left-start" arrow>
+      <Tooltip title="Save" placement="left-start" arrow>
         <Fab
           onClick={handleSave}
           sx={{
@@ -20,7 +20,7 @@ const UpdateActionsButton = (handleSave, handleCancel) => {
           <CheckIcon />
         </Fab>
       </Tooltip>
-      <Tooltip title="Annulla" placement="left-start" arrow>
+      <Tooltip title="Cancel" placement="left-start" arrow>
         <Fab
           onClick={handleCancel}
           color="primary"

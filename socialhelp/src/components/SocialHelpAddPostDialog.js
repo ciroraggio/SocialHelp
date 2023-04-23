@@ -9,7 +9,7 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
-import { CardContent, CardHeader, TextField, Typography } from "@mui/material";
+import { CardContent, CardHeader, Stack, TextField, Typography } from "@mui/material";
 import UploadImageButton from "./Buttons/UploadImageButton";
 import * as Yup from "yup";
 import { closeNewPostDialog } from "../store/postSlice";
@@ -17,6 +17,7 @@ import { isRequiredField } from "../utils/settings";
 import { serverPostRequestAuth } from "../utils/httpUtils";
 import { openSocialHelpAlert, setIsLoading } from "../store/appSlice";
 import SocialHelpAvatar from "./SocialHelpAvatar";
+import CustomVerifiedIcon from "./CustomVerifiedIcon";
 
 export const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -103,7 +104,7 @@ const SocialHelpAddPostDialog = () => {
               openSocialHelpAlert({
                 type: "error",
                 message:
-                  "Pubblicazione del post non riuscita, riprovare più tardi!",
+                  "Failed to publish post, please try again later!",
                 vertical: "top",
                 horizontal: "right",
               })
@@ -138,59 +139,60 @@ const SocialHelpAddPostDialog = () => {
         maxWidth="xs"
       >
         <DialogContent dividers>
-            <CardHeader
-              avatar={<SocialHelpAvatar user={user} />}
-              title={
-                <>
-                  <Typography variant="subtitle1" color="text" align="left">
-                    {`${user.name} ${user.surname}`}
-                  </Typography>
-                </>
-              }
-              subheader={
-                <Typography
-                  variant="subtitle2"
-                  color="text.secondary"
-                  align="left"
-                >
-                  {user.location}
+          <CardHeader
+            avatar={<SocialHelpAvatar user={user} />}
+            title={
+              <Stack direction="row" alignItems="center" gap={1}>
+                <Typography variant="subtitle1" color="text" align="left">
+                  {`${user.name} ${user.surname}`}
                 </Typography>
-              }
-            />
-            <CardContent>
-              <form onSubmit={handlePublish}>
-                <TextField
-                  id="description"
-                  name="description"
-                  label="Description"
-                  multiline
-                  rows={7}
-                  type="text"
-                  value={values.description}
-                  onChange={handleChange}
-                  error={Boolean(errors.description)}
-                  helperText={errors.description}
-                  fullWidth
-                  sx={styles.formInput}
-                />
-                <TextField
-                  id="location"
-                  name="location"
-                  label="Location"
-                  type="text"
-                  value={values.location}
-                  onChange={handleChange}
-                  error={Boolean(errors.location)}
-                  helperText={errors.location}
-                  fullWidth
-                  sx={styles.formInput}
-                />
-                {serverError && <p>{serverError}</p>}
-              </form>
-              <div style={{ paddingTop: "10px" }}>
-                <UploadImageButton />
-              </div>
-            </CardContent>
+                {user?.verified && <CustomVerifiedIcon />}
+              </Stack>
+            }
+            subheader={
+              <Typography
+                variant="subtitle2"
+                color="text.secondary"
+                align="left"
+              >
+                {user.location}
+              </Typography>
+            }
+          />
+          <CardContent>
+            <form onSubmit={handlePublish}>
+              <TextField
+                id="description"
+                name="description"
+                label="Description"
+                multiline
+                rows={7}
+                type="text"
+                value={values.description}
+                onChange={handleChange}
+                error={Boolean(errors.description)}
+                helperText={errors.description}
+                fullWidth
+                sx={styles.formInput}
+              />
+              <TextField
+                id="location"
+                name="location"
+                label="Location"
+                type="text"
+                value={values.location}
+                onChange={handleChange}
+                error={Boolean(errors.location)}
+                helperText={errors.location}
+                fullWidth
+                sx={styles.formInput}
+              />
+              {serverError && <p>{serverError}</p>}
+            </form>
+            <div style={{ paddingTop: "10px" }}>
+              <UploadImageButton />
+            </div>
+          </CardContent>
         </DialogContent>
         <DialogActions>
           <Button
