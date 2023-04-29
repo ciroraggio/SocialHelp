@@ -9,7 +9,13 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
-import { CardContent, CardHeader, Stack, TextField, Typography } from "@mui/material";
+import {
+  CardContent,
+  CardHeader,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import UploadImageButton from "./Buttons/UploadImageButton";
 import * as Yup from "yup";
 import { closeNewPostDialog } from "../store/postSlice";
@@ -70,6 +76,8 @@ const validationSchema = Yup.object().shape({
 const valuesInitialState = {
   description: "",
   location: "",
+  imageUrl: null,
+  imagePreview: null,
 };
 const SocialHelpAddPostDialog = () => {
   const { newPostDialog } = useSelector((state) => state.post);
@@ -79,8 +87,10 @@ const SocialHelpAddPostDialog = () => {
   const [values, setValues] = useState({ ...valuesInitialState, location });
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState("");
+
   const handleClose = () => {
     dispatch(closeNewPostDialog());
+    setValues({ ...valuesInitialState, location })
   };
 
   const handlePublish = (event) => {
@@ -103,8 +113,7 @@ const SocialHelpAddPostDialog = () => {
             dispatch(
               openSocialHelpAlert({
                 type: "error",
-                message:
-                  "Failed to publish post, please try again later!",
+                message: "Failed to publish post, please try again later!",
                 vertical: "top",
                 horizontal: "right",
               })
@@ -126,6 +135,22 @@ const SocialHelpAddPostDialog = () => {
       ...values,
       [event.target.name]: event.target.value,
     });
+  };
+
+  const onImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64Image = reader.result;
+        setValues({
+          ...values,
+          imageUrl: base64Image,
+          imagePreview: URL.createObjectURL(event.target.files[0]),
+        });
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -189,8 +214,11 @@ const SocialHelpAddPostDialog = () => {
               />
               {serverError && <p>{serverError}</p>}
             </form>
+            <div>
+              {values.imagePreview && <img alt="preview image" src={values.imagePreview} />}
+            </div>
             <div style={{ paddingTop: "10px" }}>
-              <UploadImageButton />
+              <UploadImageButton onImageChange={onImageChange} />
             </div>
           </CardContent>
         </DialogContent>

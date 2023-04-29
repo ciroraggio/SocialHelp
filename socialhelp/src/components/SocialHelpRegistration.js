@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { isRequiredField } from "../utils/settings";
+import { digitsOnly, isRequiredField } from "../utils/settings";
 import { serverPostRequestNoAuth } from "../utils/httpUtils";
 import { openSocialHelpAlert } from "../store/appSlice";
 import { useDispatch } from "react-redux";
@@ -23,15 +23,22 @@ const validationSchema = Yup.object().shape({
   name: Yup.string().required(isRequiredField),
   surname: Yup.string().required(isRequiredField),
   email: Yup.string()
-    .email("Inserisci un indirizzo email valido")
+    .email("Enter a valid email address")
     .required(isRequiredField),
   username: Yup.string().required(isRequiredField),
-  password: Yup.string().required("Password is required"),
+  password: Yup.string()
+    .required("Password is required")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+      "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+    ),
   passwordConfirmation: Yup.string()
-    .oneOf([Yup.ref("password"), null], "Password errata")
+    .oneOf([Yup.ref("password"), null], "Password does not match")
     .required(isRequiredField),
   location: Yup.string().required(isRequiredField),
-  phone: Yup.string().required(isRequiredField),
+  phone: Yup.string()
+    .test("Phone", "The field should have digits only", digitsOnly)
+    .required(isRequiredField),
 });
 
 const styles = {
@@ -98,7 +105,7 @@ const SocialHelpRegistration = () => {
             return dispatch(
               openSocialHelpAlert({
                 type: "success",
-                message: "Registrazione avvenuta con successo!",
+                message: "Registration completed!",
                 vertical: "top",
                 horizontal: "right",
               })
@@ -109,7 +116,7 @@ const SocialHelpRegistration = () => {
               openSocialHelpAlert({
                 type: "error",
                 message:
-                  "Errore nella richiesta di registrazione, riprovare più tardi.",
+                  "An error occurred while creating your account, please try again later.",
                 vertical: "top",
                 horizontal: "right",
               })
@@ -169,7 +176,7 @@ const SocialHelpRegistration = () => {
               <TextField
                 id="name"
                 name="name"
-                label="Nome"
+                label="Name"
                 type="nome"
                 value={values.name}
                 onChange={handleChange}
@@ -181,7 +188,7 @@ const SocialHelpRegistration = () => {
               <TextField
                 id="surname"
                 name="surname"
-                label="Cognome"
+                label="Surname"
                 type="surname"
                 value={values.surname}
                 onChange={handleChange}
@@ -217,7 +224,7 @@ const SocialHelpRegistration = () => {
               <TextField
                 id="location"
                 name="location"
-                label="Città"
+                label="Location"
                 type="text"
                 value={values.location}
                 onChange={handleChange}
@@ -229,7 +236,7 @@ const SocialHelpRegistration = () => {
               <TextField
                 id="phone"
                 name="phone"
-                label="Cellulare"
+                label="Phone"
                 type="tel"
                 value={values.phone}
                 onChange={handleChange}
@@ -269,7 +276,7 @@ const SocialHelpRegistration = () => {
               <TextField
                 id="passwordConfirmation"
                 name="passwordConfirmation"
-                label="Ripeti password"
+                label="Retype password"
                 type={showPasswordConfirmation ? "text" : "password"}
                 value={values.passwordConfirmation}
                 onChange={handleChange}
@@ -300,11 +307,11 @@ const SocialHelpRegistration = () => {
               />
               <Box sx={styles.formInput} display="flex" alignItems="center">
                 <Typography>
-                  Richiedi un account verificato
+                  Request a verified account
                   <InfoButton
                     style={{ paddingRight: 38 }}
                     message={
-                      "Un account verificato è pensato per autorità, pubbliche amministrazioni ed enti pubblici. Se richiedi un account verificato il team di SocialHelp dovrà eseguire maggiori controlli."
+                      "A verified account is designed for authorities, public administrations and public bodies. If you request a verified account the SocialHelp team will need to do more checks."
                     }
                   />
                 </Typography>
@@ -322,13 +329,13 @@ const SocialHelpRegistration = () => {
                 fullWidth
                 sx={styles.formButton}
               >
-                Registrati
+                Sign in
               </Button>
             </form>
             <Typography mt={3}>
-              Hai già un account?
+              Do you already have an account?{"  "}
               <Link color="primary" onClick={goToLogin}>
-                Accedi
+                Log in
               </Link>
             </Typography>
           </Box>

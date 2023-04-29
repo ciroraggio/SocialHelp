@@ -210,13 +210,13 @@ const SocialHelpLogin = () => {
                 fullWidth
                 sx={styles.formButton}
               >
-                Accedi
+                Log in
               </Button>
             </form>
             <Typography mt={3}>
-              Non hai un account?{"  "}
+              Do not have an account?{"  "}
               <Link color="primary" onClick={navigateToRegistration}>
-                Registrati
+                Sign in
               </Link>
             </Typography>
           </Box>

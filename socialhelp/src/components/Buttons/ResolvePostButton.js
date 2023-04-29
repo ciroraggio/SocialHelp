@@ -11,7 +11,7 @@ const ResolvePostButton = ({ postInfo }) => {
   };
 
   return (
-    <Tooltip title="Risolvi" arrow>
+    <Tooltip title="Propose a solution" arrow>
       <IconButton onClick={onClick}>
         <ReplyIcon />
       </IconButton>

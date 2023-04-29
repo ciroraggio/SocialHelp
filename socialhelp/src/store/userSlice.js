@@ -56,16 +56,17 @@ export const userSlice = createSlice({
       state.following = action.payload;
     },
     setUserData: (state, action) => {
-      state.name = action.payload.user.name;
-      state.surname = action.payload.user.surname;
-      state.username = action.payload.user.username;
-      state.location = action.payload.user.location;
-      state.email = action.payload.user.email;
-      state.phone = action.payload.user.phone;
+      state.name = action.payload.user.name || state.name;
+      state.surname = action.payload.user.surname || state.surname;
+      state.username = action.payload.user.username || state.username;
+      state.location = action.payload.user.location || state.location;
+      state.email = action.payload.user.email || state.email;
+      state.phone = action.payload.user.phone || state.phone;
       state.following = action.payload.user.following || state.following;
       state.token = action.payload.token || state.token;
       state.biography = action.payload.user.biography || state.biography;
       state.verified = action.payload.user.verified || state.verified;
+      state.profilePicture = action.payload.user.profilePicture || state.profilePicture;
     },
   },
 });

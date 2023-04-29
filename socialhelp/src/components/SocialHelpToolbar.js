@@ -3,9 +3,8 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import LogoutButton from "./Buttons/LogoutButton";
-import { Avatar, Tooltip } from "@mui/material";
+import { Tooltip } from "@mui/material";
 import { useSelector } from "react-redux";
-import { red } from "@mui/material/colors";
 import SocialHelpAvatar from "./SocialHelpAvatar";
 
 const SocialHelpToolbar = () => {
@@ -18,11 +17,13 @@ const SocialHelpToolbar = () => {
             <SocialHelpAvatar user={user} showTooltip />
           </Tooltip>
           <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
-            <img
-              src="/assets/images/icons/SocialHelpToolbarLogo.png"
-              alt="Logo"
-              style={{ scale: "50%" }}
-            />
+            <Tooltip title={`SocialHelp v${process.env.REACT_APP_VERSION}`} arrow>
+              <img
+                src="/assets/images/icons/SocialHelpToolbarLogo.png"
+                alt="Logo"
+                style={{ scale: "50%" }}
+              />
+            </Tooltip>
           </Box>
           <Box sx={{ width: "20px" }} />
           <LogoutButton />

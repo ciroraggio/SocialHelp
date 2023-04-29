@@ -39,7 +39,7 @@ const SocialHelpExplore = () => {
           sx={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "start",
             gap: "1rem",
           }}
         >
@@ -58,14 +58,32 @@ const SocialHelpExplore = () => {
             gap: "1rem",
           }}
         >
-           <span>
+          <span>
             <Stack direction="row" alignItems="center" gap={1}>
               <b>{`${row.original.name} ${row.original.surname}`}</b>
               {row.original?.verified && <CustomVerifiedIcon />}
-              </Stack>
-              @{row.original.username}
-            </span>
- 
+            </Stack>
+            @{row.original.username}
+          </span>
+        </Box>
+      ),
+    },
+    {
+      accessorKey: "biography",
+      headerName: "Biography",
+      Cell: ({ renderedCellValue, row }) => (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "1rem",
+          }}
+        >
+          <span>
+            <Stack direction="row" alignItems="center" gap={1}>
+              {`${row.original.biography?.substring(0,20) || ''}...`}
+            </Stack>
+          </span>
         </Box>
       ),
     },
@@ -127,57 +145,62 @@ const SocialHelpExplore = () => {
   }, []);
 
   return (
-    <Grid container spacing={2} justifyContent="center">
-      <Grid item xs={12}>
-        <TextField
-          fullWidth
-          label="Search profiles"
-          variant="outlined"
-          value={searchText}
-          onChange={handleSearchTextChange}
+    <>
+      <Grid container spacing={2} justifyContent="center">
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            label="Search profiles"
+            variant="outlined"
+            value={searchText}
+            onChange={handleSearchTextChange}
+          />
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Box width="100%" height="100%">
+          <MaterialReactTable
+            muiTablePaperProps={{
+              elevation: 0,
+              sx: {
+                borderRadius: "0",
+                border: "1px #e0e0e0",
+              },
+            }}
+            columns={columns}
+            data={searchText ? data : window[WINDOW_PROFILES] || []}
+            enableColumnFilterModes={false}
+            enableColumnOrdering={false}
+            enableFilters={false}
+            enableDensityToggle={false}
+            enableFullScreenToggle={false}
+            enableGrouping={false}
+            enableHiding={false}
+            showColumnFilters={false}
+            enablePinning={false}
+            enableRowSelection={false}
+            enableTableHead={false}
+            enablePagination={false}
+            enableRowActions
+            positionActionsColumn="last"
+            renderRowActions={({ row }) => (
+              <Box display="flex" alignItems="center" justifyContent="flex-end">
+                <SocialHelpFollowButton profile={row.original} />
+                <ProfileInfoButton
+                  handleOpenInfo={handleOpenInfo}
+                  user={row.original}
+                />
+              </Box>
+            )}
+          />
+        </Box>
+        <SocialHelpProfileInfoDialog
+          openDialog={openProfileInfo}
+          closeDialog={closeInfoDialog}
+          user={infoUser}
         />
       </Grid>
-
-      <MaterialReactTable
-        muiTablePaperProps={{
-          elevation: 0,
-          sx: {
-            borderRadius: "0",
-            border: "1px #e0e0e0",
-          },
-        }}
-        columns={columns}
-        data={searchText ? data : window[WINDOW_PROFILES] || []}
-        enableColumnFilterModes={false}
-        enableColumnOrdering={false}
-        enableFilters={false}
-        enableDensityToggle={false}
-        enableFullScreenToggle={false}
-        enableGrouping={false}
-        enableHiding={false}
-        showColumnFilters={false}
-        enablePinning={false}
-        enableRowSelection={false}
-        enableTableHead={false}
-        enablePagination={false}
-        enableRowActions
-        positionActionsColumn="last"
-        renderRowActions={({ row }) => (
-          <Box display="flex" alignItems="center" justifyContent="flex-end">
-            <SocialHelpFollowButton profile={row.original} />
-            <ProfileInfoButton
-              handleOpenInfo={handleOpenInfo}
-              user={row.original}
-            />
-          </Box>
-        )}
-      />
-      <SocialHelpProfileInfoDialog
-        openDialog={openProfileInfo}
-        closeDialog={closeInfoDialog}
-        user={infoUser}
-      />
-    </Grid>
+    </>
   );
 };
 

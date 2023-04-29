@@ -15,7 +15,7 @@ const SocialHelpNotificationsTable = ({ data }) => {
           sx={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "start",
             gap: "1rem",
           }}
         >
@@ -55,13 +55,14 @@ const SocialHelpNotificationsTable = ({ data }) => {
             gap: "1rem",
           }}
         >
-          <span>{`${renderedCellValue.substring(0, 30)}...`}</span>
+          <span>{`${renderedCellValue.substring(0, 100)}...`}</span>
         </Box>
       ),
     },
   ];
 
   return (
+    <Box width="100%" height="100%">
     <MaterialReactTable
       muiTablePaperProps={{
         elevation: 0,
@@ -92,6 +93,7 @@ const SocialHelpNotificationsTable = ({ data }) => {
         </Box>
       )}
     />
+    </Box>
   );
 };
 

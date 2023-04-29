@@ -4,7 +4,7 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
-import { CardMedia, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import SharePostButton from "./Buttons/SharePostButton";
 import ResolvePostButton from "./Buttons/ResolvePostButton";
 import SpreadPostButton from "./Buttons/SpreadPostButton";
@@ -39,9 +39,7 @@ const SocialHelpPost = (props) => {
             <Typography variant="subtitle1" color="text" align="left">
               {`${user.name} ${user.surname}`}
             </Typography>
-            {user?.verified && (
-              <CustomVerifiedIcon />
-            )}
+            {user?.verified && <CustomVerifiedIcon />}
           </Stack>
         }
         action={<SharePostButton postUrl={getPostUrl(post)} />}
@@ -56,17 +54,10 @@ const SocialHelpPost = (props) => {
           {post.description}
         </Typography>
       </CardContent>
-      {post.images && post.images.length > 0 && (
-        <>
-          {post.images.map((item) => (
-            <CardMedia
-              component="img"
-              alt="green iguana"
-              height="140"
-              image={item}
-            />
-          ))}
-        </>
+      {post.imageUrl && (
+        <div>
+          <img src={post.imageUrl} alt="img" />
+        </div>
       )}
       <CardActions disableSpacing>
         <SpreadPostButton />

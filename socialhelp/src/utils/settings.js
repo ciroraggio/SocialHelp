@@ -28,3 +28,23 @@ export function checkToken(dispatch) {
     dispatch(setMustRelogin(true));
   }
 }
+
+export const digitsOnly = (value) => /^\d+$/.test(value)
+
+
+export function base64ToImage(base64Str) {
+  const base64Image = base64Str.split(";base64,").pop();
+  const byteCharacters = atob(base64Image);
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  const byteArray = new Uint8Array(byteNumbers);
+  const blob = new Blob([byteArray], { type: "image/png" });
+
+  // Crea un oggetto URL dall'oggetto Blob
+  const imageUrl = URL.createObjectURL(blob);
+
+  return imageUrl;
+}
+
