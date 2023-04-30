@@ -29,7 +29,6 @@ const SocialHelpTabs = (props) => {
     switch (newValue) {
       case tabValues.feed:
         checkToken(dispatch);
-        getAllNotifications(token, dispatch);
         navigate("/feed");
         break;
       case tabValues.notifications:
@@ -39,13 +38,11 @@ const SocialHelpTabs = (props) => {
         break;
       case tabValues.profile:
         checkToken(dispatch);
-        getAllNotifications(token, dispatch);
         navigate(`/profile`);
         break;
       case tabValues.explore:
         checkToken(dispatch);
         dispatch(setIsLoading(true));
-        getAllNotifications(token, dispatch);
         getAllUsers(token, dispatch);
         navigate("/explore");
         break;
