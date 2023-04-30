@@ -15,13 +15,11 @@ import SocialHelpAvatar from "./SocialHelpAvatar";
 import CustomVerifiedIcon from "./CustomVerifiedIcon";
 const SocialHelpPost = (props) => {
   const { user, post } = props;
-  const [images, setImages] = useState(null);
   const [dateField, setDateField] = useState(null);
   const [isUserInSession, setIsUserInSession] = useState(false);
   const { username: usernameInSession } = useSelector((state) => state.user);
 
   useEffect(() => {
-    setImages(post.images);
     setDateField(
       `Published the ${
         post.createdAt.toString().split("T")[0]
@@ -55,8 +53,8 @@ const SocialHelpPost = (props) => {
         </Typography>
       </CardContent>
       {post.imageUrl && (
-        <div>
-          <img src={post.imageUrl} alt="img" />
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <img src={post.imageUrl} alt="img"/>
         </div>
       )}
       <CardActions disableSpacing>
@@ -69,7 +67,7 @@ const SocialHelpPost = (props) => {
             }}
           />
         )}
-        {usernameInSession === user.username && (
+        {isUserInSession && (
           <DeletePostButton post={post} />
         )}
         <Typography

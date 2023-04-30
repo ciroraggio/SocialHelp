@@ -10,36 +10,43 @@ import SocialHelpExplore from "./SocialHelpExplore";
 import { checkToken, tabValues } from "../utils/settings";
 import SocialHelpToolbar from "./SocialHelpToolbar";
 import { useDispatch, useSelector } from "react-redux";
-import { setAllProfilesFetched } from "../store/appSlice";
+import { setIsLoading } from "../store/appSlice";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SocialHelpNotifications from "./SocialHelpNotifications";
-import useCheckToken from "../hooks/useReloadCheckToken";
+import { getAllNotifications, getAllUsers } from "../utils/httpUtils";
 
 const SocialHelpTabs = (props) => {
   const [tabValue, setTabValue] = useState(props.tabValue || tabValues.feed);
   const { notifications } = useSelector((state) => state.app);
+  const { token } = useSelector((state) => state.user);
   const [notificationsCounter, setNotificationsCounter] = useState(
     notifications || 0
   );
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const handleTabChange = (event, newValue) => {
     switch (newValue) {
       case tabValues.feed:
         checkToken(dispatch);
+        getAllNotifications(token, dispatch);
         navigate("/feed");
         break;
       case tabValues.notifications:
         checkToken(dispatch);
+        getAllNotifications(token, dispatch);
         navigate("/notifications");
         break;
       case tabValues.profile:
         checkToken(dispatch);
+        getAllNotifications(token, dispatch);
         navigate(`/profile`);
         break;
       case tabValues.explore:
         checkToken(dispatch);
-        dispatch(setAllProfilesFetched(false));
+        dispatch(setIsLoading(true));
+        getAllNotifications(token, dispatch);
+        getAllUsers(token, dispatch);
         navigate("/explore");
         break;
       default:

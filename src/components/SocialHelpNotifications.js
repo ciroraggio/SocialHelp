@@ -51,34 +51,34 @@ const SocialHelpNotifications = () => {
     }
   }, [window[WINDOW_RESOLUTIONS]]);
 
-  useEffect(() => {
-    if (!window[WINDOW_RESOLUTIONS] && token) {
-      dispatch(setIsLoading(true));
-      fetchResolutionsByUser(token)
-        .then((data) => {
-          if (data.resolutions) {
-            window[WINDOW_RESOLUTIONS] = data.resolutions;
-            updateNotifications(dispatch);
-            dispatch(setIsLoading(false));
-            return;
-          }
-          throw new Error();
-        })
-        .catch((err) => {
-          dispatch(setIsLoading(false));
-          dispatch(
-            openSocialHelpAlert({
-              type: "error",
-              message:
-                "Errore nel caricamento delle notifiche, riprovare più tardi!",
-              vertical: "bottom",
-              horizontal: "left",
-            })
-          );
-          return;
-        });
-    }
-  }, [dispatch]);
+  // useEffect(() => {
+  //   if (!window[WINDOW_RESOLUTIONS] && token) {
+  //     dispatch(setIsLoading(true));
+  //     fetchResolutionsByUser(token)
+  //       .then((data) => {
+  //         if (data.resolutions) {
+  //           window[WINDOW_RESOLUTIONS] = data.resolutions;
+  //           updateNotifications(dispatch);
+  //           dispatch(setIsLoading(false));
+  //           return;
+  //         }
+  //         throw new Error();
+  //       })
+  //       .catch((err) => {
+  //         dispatch(setIsLoading(false));
+  //         dispatch(
+  //           openSocialHelpAlert({
+  //             type: "error",
+  //             message:
+  //               "Errore nel caricamento delle notifiche, riprovare più tardi!",
+  //             vertical: "bottom",
+  //             horizontal: "left",
+  //           })
+  //         );
+  //         return;
+  //       });
+  //   }
+  // }, [dispatch]);
 
   return (
     <Grid container spacing={2} justifyContent="center">
@@ -86,6 +86,7 @@ const SocialHelpNotifications = () => {
         <TextField
           fullWidth
           label="Search notifications"
+          size="small"
           variant="outlined"
           value={searchText}
           onChange={handleSearchTextChange}

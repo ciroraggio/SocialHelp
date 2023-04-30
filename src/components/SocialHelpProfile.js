@@ -22,13 +22,13 @@ import { base64ToImage, digitsOnly } from "../utils/settings";
 import UploadImageButton from "./Buttons/UploadImageButton";
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string(),
-  surname: Yup.string(),
+  name: Yup.string().required(),
+  surname: Yup.string().required(),
   biography: Yup.string().max(
     400,
     "The bio cannot contain more than 400 characters"
   ),
-  email: Yup.string().email("Enter a valid email address"),
+  email: Yup.string().email("Enter a valid email address").required(),
   password: Yup.lazy((value) =>
     value
       ? Yup.string().matches(
@@ -145,6 +145,7 @@ const SocialHelpProfile = (props) => {
   const handleCancel = () => {
     setValues(oldValues);
     setEditing(false);
+    setErrors({});
   };
 
   const handleChange = (field, value) => {
@@ -157,6 +158,7 @@ const SocialHelpProfile = (props) => {
         id={field}
         label={label}
         value={value}
+        size="small"
         error={errors[field]}
         helperText={errors[field]}
         fullWidth
@@ -195,7 +197,8 @@ const SocialHelpProfile = (props) => {
             dispatch(
               openSocialHelpAlert({
                 type: "error",
-                message: "Unable to update profile photo, please try again later!",
+                message:
+                  "Unable to update profile photo, please try again later!",
                 vertical: "top",
                 horizontal: "right",
               })
@@ -274,6 +277,7 @@ const SocialHelpProfile = (props) => {
               type={showPassword ? "text" : "password"}
               value={values.password}
               disabled={!editing}
+              size="small"
               onChange={(e) => handleChange("password", e.target.value)}
               error={Boolean(errors.password)}
               helperText={errors.password}
@@ -298,6 +302,7 @@ const SocialHelpProfile = (props) => {
               id="passwordConfirmation"
               name="passwordConfirmation"
               label="Retype password"
+              size="small"
               type={showPasswordConfirmation ? "text" : "password"}
               value={values.passwordConfirmation}
               onChange={(e) =>

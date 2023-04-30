@@ -8,7 +8,7 @@ import SocialHelpAddPostDialog from "./SocialHelpAddPostDialog";
 import SocialHelpShareDialog from "./SocialHelpShareDialog";
 import SocialHelpAddResolveDialog from "./SocialHelpAddResolveDialog";
 import { serverGetRequest } from "../utils/httpUtils";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { getUniqueObjects } from "../utils/arrayUtils";
 
 const SocialHelpFeed = () => {

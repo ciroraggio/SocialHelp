@@ -20,8 +20,6 @@ const SocialHelpExplore = () => {
   const [infoUser, setInfoUser] = useState({});
   const [data, setData] = useState([]);
   const [openProfileInfo, setOpenProfileInfo] = useState(false);
-  const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.user);
 
   const handleOpenInfo = (user) => {
     setInfoUser(user);
@@ -81,7 +79,7 @@ const SocialHelpExplore = () => {
         >
           <span>
             <Stack direction="row" alignItems="center" gap={1}>
-              {`${row.original.biography?.substring(0,20) || ''}...`}
+              {`${row.original.biography?.substring(0, 20) || ""}...`}
             </Stack>
           </span>
         </Box>
@@ -114,36 +112,6 @@ const SocialHelpExplore = () => {
     }
   }, [searchText]);
 
-  useEffect(() => {
-    if (!window[WINDOW_PROFILES] && token) {
-      dispatch(setIsLoading(true));
-      serverGetRequest("user/getAllUsers", token)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data && data.length > 0) {
-            window[WINDOW_PROFILES] = data;
-            dispatch(setAllProfilesFetched(true));
-            dispatch(setIsLoading(false));
-            return;
-          }
-          throw new Error();
-        })
-        .catch((err) => {
-          dispatch(setIsLoading(false));
-          dispatch(
-            openSocialHelpAlert({
-              type: "error",
-              message:
-                "Errore nel caricamento dei profili, riprovare più tardi!",
-              vertical: "bottom",
-              horizontal: "left",
-            })
-          );
-          return;
-        });
-    }
-  }, []);
-
   return (
     <>
       <Grid container spacing={2} justifyContent="center">
@@ -153,6 +121,7 @@ const SocialHelpExplore = () => {
             label="Search profiles"
             variant="outlined"
             value={searchText}
+            size="small"
             onChange={handleSearchTextChange}
           />
         </Grid>
