@@ -45,13 +45,13 @@ const App = () => {
       {!isLoading && <SocialHelpRoutes />}
       {isLoading && <SocialHelpProgress showLogo />}
       <SociaHelpSnackbar />
-      <div>
+      {token && <div>
         <TimerTask
           expiryTimestamp={time}
           timer={5}
           callback={() => getAllNotifications(token, dispatch)}
         />
-      </div>
+      </div>}
     </div>
   );
 };
