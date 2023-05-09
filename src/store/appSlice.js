@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { tabValues } from "../utils/settings";
 const initialState = {
   token: "",
   textSearch: "",
@@ -13,6 +14,7 @@ const initialState = {
   allProfilesFetched: false,
   notifications: 0,
   mustRelogin: false,
+  currentTab: tabValues.feed,
 };
 export const appSlice = createSlice({
   name: "app",
@@ -20,6 +22,9 @@ export const appSlice = createSlice({
   reducers: {
     setToken: (state, action) => {
       state.token = action.payload;
+    },
+    setCurrentTab: (state, action) => {
+      state.currentTab = action.payload;
     },
     setMustRelogin: (state, action) => {
       state.mustRelogin = action.payload;
@@ -60,6 +65,7 @@ export const appSlice = createSlice({
 
 export const {
   setToken,
+  setCurrentTab,
   setNotifications,
   setTextSearch,
   setIsLoading,
@@ -67,7 +73,7 @@ export const {
   closeSocialHelpAlert,
   setAllProfilesFetched,
   setMustRelogin,
-  resetAppState
+  resetAppState,
 } = appSlice.actions;
 
 export const appReducer = appSlice.reducer;

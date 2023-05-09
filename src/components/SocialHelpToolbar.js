@@ -14,7 +14,7 @@ const SocialHelpToolbar = () => {
       <AppBar position="static">
         <Toolbar sx={{ height: "80px" }}>
           <Tooltip title={user.username} arrow placement="right">
-            <SocialHelpAvatar user={user} showTooltip />
+            <SocialHelpAvatar user={user} />
           </Tooltip>
           <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
             <Tooltip title={`SocialHelp v${process.env.REACT_APP_VERSION}`} arrow>

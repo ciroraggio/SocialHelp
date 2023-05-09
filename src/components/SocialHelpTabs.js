@@ -10,7 +10,7 @@ import SocialHelpExplore from "./SocialHelpExplore";
 import { checkToken, tabValues } from "../utils/settings";
 import SocialHelpToolbar from "./SocialHelpToolbar";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsLoading } from "../store/appSlice";
+import { setCurrentTab, setIsLoading } from "../store/appSlice";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SocialHelpNotifications from "./SocialHelpNotifications";
 import { getAllNotifications, getAllUsers } from "../utils/httpUtils";
@@ -24,6 +24,10 @@ const SocialHelpTabs = (props) => {
   );
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  
+  useEffect(() => {
+    dispatch(setCurrentTab(tabValue));
+  }, [tabValue]);
 
   const handleTabChange = (event, newValue) => {
     switch (newValue) {
