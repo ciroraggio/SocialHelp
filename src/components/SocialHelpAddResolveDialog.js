@@ -67,7 +67,7 @@ const SocialHelpAddResolveDialog = () => {
               openSocialHelpAlert({
                 type: "success",
                 message:
-                  "Proposta di risoluzione inviata, controlla la sezione notifiche per rimanere aggiornato!",
+                  "Resolution proposal sent, check the notifications section to stay updated!",
                 vertical: "top",
                 horizontal: "right",
               })
@@ -80,7 +80,7 @@ const SocialHelpAddResolveDialog = () => {
               openSocialHelpAlert({
                 type: "error",
                 message:
-                  "Proposta di risoluzione non inviata, riprovare o segnalare l'errore!",
+                  "Resolution proposal not sent, please try again or report the error!",
                 vertical: "top",
                 horizontal: "right",
               })
