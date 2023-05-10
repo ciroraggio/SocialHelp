@@ -17,10 +17,7 @@ import {
   LOCAL_STORAGE_TOKEN_KEY,
   WINDOW_RESOLUTIONS,
 } from "../utils/settings";
-import {
-  fetchAllResolutionByUser,
-  fetchLogin,
-} from "../utils/httpUtils";
+import { fetchAllResolutionByUser, fetchLogin } from "../utils/httpUtils";
 import { useDispatch } from "react-redux";
 import { resetUser, setUserData } from "../store/userSlice";
 import {
@@ -128,9 +125,10 @@ const SocialHelpLogin = () => {
       })
       .catch((validationErrors) => {
         const errors = {};
-        validationErrors.inner.forEach((error) => {
-          errors[error.path] = error.message;
-        });
+        if (validationErrors.inner)
+          validationErrors.inner.forEach((error) => {
+            errors[error.path] = error.message;
+          });
         setErrors(errors);
       });
   };
@@ -146,8 +144,8 @@ const SocialHelpLogin = () => {
   };
 
   const navigateToRegistration = () => {
-    return navigate('/signup');
-  }
+    return navigate("/signup");
+  };
 
   return (
     <Box sx={styles.root}>

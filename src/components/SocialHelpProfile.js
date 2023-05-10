@@ -132,9 +132,10 @@ const SocialHelpProfile = (props) => {
         })
         .catch((validationErrors) => {
           const errors = {};
-          validationErrors.inner.forEach((error) => {
-            errors[error.path] = error.message;
-          });
+          if (validationErrors.inner)
+            validationErrors.inner.forEach((error) => {
+              errors[error.path] = error.message;
+            });
           setErrors(errors);
         });
     } else {

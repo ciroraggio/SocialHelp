@@ -90,7 +90,7 @@ const SocialHelpAddPostDialog = () => {
 
   const handleClose = () => {
     dispatch(closeNewPostDialog());
-    setValues({ ...valuesInitialState, location })
+    setValues({ ...valuesInitialState, location });
   };
 
   const handlePublish = (event) => {
@@ -119,13 +119,13 @@ const SocialHelpAddPostDialog = () => {
               })
             );
           });
-        throw new Error();
       })
       .catch((validationErrors) => {
         const errors = {};
-        validationErrors.inner.forEach((error) => {
-          errors[error.path] = error.message;
-        });
+        if (validationErrors.inner)
+          validationErrors.inner.forEach((error) => {
+            errors[error.path] = error.message;
+          });
         setErrors(errors);
       });
   };
@@ -215,7 +215,9 @@ const SocialHelpAddPostDialog = () => {
               {serverError && <p>{serverError}</p>}
             </form>
             <div>
-              {values.imagePreview && <img alt="preview image" src={values.imagePreview} />}
+              {values.imagePreview && (
+                <img alt="preview image" src={values.imagePreview} />
+              )}
             </div>
             <div style={{ paddingTop: "10px" }}>
               <UploadImageButton onImageChange={onImageChange} />
