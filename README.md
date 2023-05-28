@@ -27,5 +27,5 @@ SocialHelp is a social network that allows people to help each other.
    * propose solutions
    * accept/reject solutions
   
-- To log in with different accounts on the same computer, open a new browser window for each account.
+2. To log in with different accounts on the same computer, open a new browser window for each account.
 
