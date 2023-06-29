@@ -16,11 +16,7 @@ const App = () => {
   const dispatch = useDispatch();
   const time = new Date();
   time.setSeconds(time.getSeconds() + 5);
-  // Utilizzo la funzione useEffect() per creare un intervallo che effettua la richiesta HTTP per il recupero di tutti gli utenti ogni N secondi.
-  // Inoltre, abbiamo registrato un evento visibilitychange sulla finestra del browser utilizzando document.addEventListener().
-  // Quando la finestra diventa invisibile (ad esempio, quando l'utente passa a un'altra scheda), l'intervallo viene fermato utilizzando stopInterval().
-  // Quando la finestra diventa visibile di nuovo, l'intervallo viene riattivato utilizzando startInterval().
-  // Quando il componente viene smontato, l'intervallo viene fermato utilizzando stopInterval() e l'evento visibilitychange viene rimosso utilizzando document.removeEventListener().
+  // Token control management in case of window refresh
   useReloadCheckToken();
 
   useEffect(() => {
